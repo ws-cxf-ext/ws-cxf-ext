@@ -1,8 +1,13 @@
 package org.ws.cxf.ext.utils;
 
 import static org.apache.commons.codec.binary.Base64.encodeBase64;
+import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.ws.cxf.ext.utils.DateUtils.getCurrentTime;
+import static org.ws.cxf.ext.utils.HTTPUtils.httpGet;
+import static org.ws.cxf.ext.utils.JSONUtils.json2mapQuietly;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.MessageDigest;
@@ -13,7 +18,11 @@ import java.util.UUID;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ws.cxf.ext.exception.CxfExtraTechnicalException;
 
 /**
@@ -23,6 +32,7 @@ import org.ws.cxf.ext.exception.CxfExtraTechnicalException;
  *
  */
 public class SecurityUtils {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SecurityUtils.class);
 
 	/**
 	 * Utils class => private constructor.
@@ -51,6 +61,36 @@ public class SecurityUtils {
 		} catch (NoSuchAlgorithmException | InvalidKeyException e) {
 			throw new CxfExtraTechnicalException(e);
 		}
+	}
+
+	/**
+	 * Generating md5 hash.
+	 * 
+	 * @param str
+	 * @return String
+	 */
+	public static String getMD5HashQuietly(String str) {
+		StringBuffer hexString = new StringBuffer();
+		MessageDigest md;
+		try {
+			md = (MessageDigest) MessageDigest.getInstance("MD5").clone();
+
+			byte[] hash = md.digest(str.getBytes());
+
+			for (int i = 0; i < hash.length; i++) {
+				if ((0xff & hash[i]) < 0x10) {
+					hexString.append("0" + Integer.toHexString((0xFF & hash[i])));
+				} else {
+					hexString.append(Integer.toHexString(0xFF & hash[i]));
+				}
+			}
+
+			return hexString.toString();
+		} catch (NoSuchAlgorithmException | CloneNotSupportedException e) {
+			LOGGER.error("Exception", e);
+		}
+
+		return null;
 	}
 
 	/**
@@ -85,6 +125,74 @@ public class SecurityUtils {
 		authAutorize.put("auth_token", token);
 
 		return authAutorize;
+	}
+
+	/**
+	 * Getting ip quietly.
+	 * 
+	 * @return String l'ip
+	 */
+	public static String getIPAdressQuietly() {
+		InetAddress ip;
+		try {
+			ip = InetAddress.getLocalHost();
+			return ip.getHostAddress();
+		} catch (UnknownHostException e) {
+			LOGGER.error("[getIPAdressQuietly] error : " + e.getMessage(), e);
+			return null;
+		}
+	}
+
+	/**
+	 * Getting ip from request.
+	 * 
+	 * @return ip
+	 */
+	public static String getIPAdressQuietly(HttpServletRequest request) {
+		String ipAddress = request.getHeader("X-FORWARDED-FOR");
+
+		if (ipAddress == null) {
+			ipAddress = request.getRemoteAddr();
+		}
+
+		return ipAddress;
+	}
+
+	/**
+	 * Getting IP from request.
+	 * 
+	 * @return ip
+	 */
+	public static String getIPAdressQuietly(ServletRequest request) {
+		return request.getRemoteAddr();
+	}
+
+	/**
+	 * Getting client infos.
+	 * 
+	 * @return Map<String, String>.
+	 */
+	public static Map<String, String> getClientLocalisationInfos(String ip) {
+		String ws = "http://ipinfo.io/%s/json";
+
+		String url = String.format(ws, ip);
+		String json = httpGet(url);
+
+		if (isEmpty(json)) {
+			return null;
+		}
+
+		return json2mapQuietly(json);
+	}
+
+	/**
+	 * Generate token.
+	 * 
+	 * @return String
+	 */
+	public static String generateToken() {
+		String uuid = UUID.randomUUID().toString();
+		return getMD5HashQuietly(uuid);
 	}
 
 }

@@ -183,23 +183,23 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 			throw new NotAuthorizedException("Authentification error");
 		}
 
-		Map<String, String> oauthParams = getQueryMap(authorization);
+		Map<String, String> authParams = getQueryMap(authorization);
 		String hashConsumerKey = null;
 		String hashSignature = null;
 		String tokenDecode = null;
 
 		// Parameter checking
-		String consumerKey = oauthParams.get("auth_consumer_key");
-		String signature = oauthParams.get("auth_signature");
-		String token = oauthParams.get("auth_token");
+		String consumerKey = authParams.get("auth_consumer_key");
+		String signature = authParams.get("auth_signature");
+		String token = authParams.get("auth_token");
 
-		checkOAuthParam("auth_consumer_key", consumerKey);
-		checkOAuthParam("auth_token", token);
-		checkOAuthParam("auth_callback", oauthParams.get("auth_callback"));
-		checkOAuthParam("auth_signature", signature);
-		checkOAuthParam("auth_nonce", oauthParams.get("auth_nonce"));
-		checkOAuthParam("auth_timestamp", oauthParams.get("auth_timestamp"));
-		checkAuthParam("auth_signature_method", oauthParams.get("auth_signature_method"), "HMAC-SHA1");
+		checkAuthParam("auth_consumer_key", consumerKey);
+		checkAuthParam("auth_token", token);
+		checkAuthParam("auth_callback", authParams.get("auth_callback"));
+		checkAuthParam("auth_signature", signature);
+		checkAuthParam("auth_nonce", authParams.get("auth_nonce"));
+		checkAuthParam("auth_timestamp", authParams.get("auth_timestamp"));
+		checkAuthParam("auth_signature_method", authParams.get("auth_signature_method"), "HMAC-SHA1");
 
 		try {
 			hashConsumerKey = URLDecoder.decode(consumerKey, PARAM_CHARSET);
@@ -246,7 +246,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 * @param paramValue
 	 * @throws NotAuthorizedException
 	 */
-	private void checkOAuthParam(String paramName, String paramValue) {
+	private void checkAuthParam(String paramName, String paramValue) {
 		checkAuthParam(paramName, paramValue, null);
 	}
 

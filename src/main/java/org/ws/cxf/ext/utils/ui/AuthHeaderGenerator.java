@@ -95,7 +95,7 @@ public class AuthHeaderGenerator {
 		bgenerate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				iresult.setText("OAuth " + httpBuildQuery(generateAuthParameters(iappid.getText(), ienv.getText(), iuri.getText())));
+				iresult.setText("Auth " + httpBuildQuery(generateAuthParameters(iappid.getText(), ienv.getText(), iuri.getText())));
 			}
 		});
 	}

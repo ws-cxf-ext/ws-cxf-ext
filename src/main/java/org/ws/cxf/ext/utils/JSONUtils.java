@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ws.cxf.ext.Constants;
 import org.ws.cxf.ext.exception.CxfExtraTechnicalException;
 
@@ -22,119 +24,143 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  *
  */
 public class JSONUtils {
-    /**
-     * Convertir une Map en JSON
-     * 
-     * @param map
-     * @return String
-     */
-    public static String map2json(Map<?, ?> map) {
-        if (!isNotEmpty(map)) {
-            return Constants.EMPTY_STRING;
-        }
+	private static final Logger LOGGER = LoggerFactory.getLogger(JSONUtils.class);
 
-        String rtn = Constants.EMPTY_STRING;
+	/**
+	 * Convertir une Map en JSON
+	 * 
+	 * @param map
+	 * @return String
+	 */
+	public static String map2json(Map<?, ?> map) {
+		if (!isNotEmpty(map)) {
+			return Constants.EMPTY_STRING;
+		}
 
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            rtn = mapper.writeValueAsString(map);
-        } catch (JsonProcessingException e) {
-            new CxfExtraTechnicalException(e);
-        }
+		String rtn = Constants.EMPTY_STRING;
 
-        return rtn;
-    }
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			rtn = mapper.writeValueAsString(map);
+		} catch (JsonProcessingException e) {
+			new CxfExtraTechnicalException(e);
+		}
 
-    /**
-     * Convertir un objet en JSON
-     * 
-     * @param obj
-     * @param clazz
-     * @return String
-     */
-    public static String objectTojson(Object obj, Class<?> clazz) {
-        ObjectMapper mapper = new ObjectMapper();
-        String json = null;
-        try {
-            json = mapper.writeValueAsString(clazz.cast(obj));
-        } catch (JsonProcessingException e) {
-            new CxfExtraTechnicalException(e);
-        }
+		return rtn;
+	}
 
-        return json;
-    }
+	/**
+	 * Convertir un objet en JSON
+	 * 
+	 * @param obj
+	 * @param clazz
+	 * @return String
+	 */
+	public static String objectTojson(Object obj, Class<?> clazz) {
+		ObjectMapper mapper = new ObjectMapper();
+		String json = null;
+		try {
+			json = mapper.writeValueAsString(clazz.cast(obj));
+		} catch (JsonProcessingException e) {
+			new CxfExtraTechnicalException(e);
+		}
 
-    /**
-     * Convertir une Liste en JSON
-     * 
-     * @param list
-     * @return String
-     */
-    public static String list2json(List<? extends List<String>> list) {
-        if (!isNotEmpty(list)) {
-            return Constants.EMPTY_STRING;
-        }
+		return json;
+	}
 
-        String rtn = Constants.EMPTY_STRING;
+	/**
+	 * Convertir une Liste en JSON
+	 * 
+	 * @param list
+	 * @return String
+	 */
+	public static String list2json(List<? extends List<String>> list) {
+		if (!isNotEmpty(list)) {
+			return Constants.EMPTY_STRING;
+		}
 
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            rtn = mapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            new CxfExtraTechnicalException(e);
-        }
+		String rtn = Constants.EMPTY_STRING;
 
-        return rtn;
-    }
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			rtn = mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			new CxfExtraTechnicalException(e);
+		}
 
-    /**
-     * Convertir une Liste en JSON
-     * 
-     * @param list
-     * @return String
-     */
-    public static String resultset2json(List<Object[]> list) {
-        if (!isNotEmpty(list)) {
-            return Constants.EMPTY_JSON;
-        }
+		return rtn;
+	}
 
-        String rtn = Constants.EMPTY_JSON;
+	/**
+	 * Convertir une Liste en JSON
+	 * 
+	 * @param list
+	 * @return String
+	 */
+	public static String resultset2json(List<Object[]> list) {
+		if (!isNotEmpty(list)) {
+			return Constants.EMPTY_JSON;
+		}
 
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            rtn = mapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            new CxfExtraTechnicalException(e);
-        }
+		String rtn = Constants.EMPTY_JSON;
 
-        return rtn;
-    }
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			rtn = mapper.writeValueAsString(list);
+		} catch (JsonProcessingException e) {
+			new CxfExtraTechnicalException(e);
+		}
 
-    /**
-     * Convertir une chaîne Json en map
-     * 
-     * @param json
-     * @return
-     */
-    public static Map<String, String> json2map(String json) {
-        Map<String, String> rtn = null;
+		return rtn;
+	}
 
-        if (isNotEmpty(json)) {
-            try {
-                ObjectMapper mapper = new ObjectMapper();
-                rtn = mapper.readValue(json, new TypeReference<HashMap<String, String>>() {
-                });
-            } catch (Exception e) {
-                new CxfExtraTechnicalException(e);
-            }
-        }
+	/**
+	 * Convertir une chaîne Json en map
+	 * 
+	 * @param json
+	 * @return
+	 */
+	public static Map<String, String> json2map(String json) {
+		Map<String, String> rtn = null;
 
-        return rtn;
-    }
+		if (isNotEmpty(json)) {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				rtn = mapper.readValue(json, new TypeReference<HashMap<String, String>>() {
+				});
+			} catch (Exception e) {
+				new CxfExtraTechnicalException(e);
+			}
+		}
 
-    /**
-     * Classe statique
-     */
-    private JSONUtils() {
-    }
+		return rtn;
+	}
+
+	/**
+	 * Convert JSON to map.
+	 * 
+	 * @param json
+	 * @return Map<String, String>
+	 */
+	public static Map<String, String> json2mapQuietly(String json) {
+		Map<String, String> rtn = null;
+
+		if (isNotEmpty(json)) {
+			try {
+				ObjectMapper mapper = new ObjectMapper();
+				rtn = mapper.readValue(json, new TypeReference<HashMap<String, String>>() {
+				});
+			} catch (Exception e) {
+				LOGGER.error("Parsing error", e);
+			}
+		}
+
+		return rtn;
+	}
+
+	/**
+	 * Classe statique
+	 */
+	private JSONUtils() {
+	}
 }
