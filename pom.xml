@@ -252,10 +252,10 @@
 					</includes>
 
 					<!-- github repo name -->
-					<repositoryName>jeasyrules-core</repositoryName>
+					<repositoryName>ws-cxf-ext</repositoryName>
 
 					<!-- github username -->
-					<repositoryOwner>jeasyrules</repositoryOwner>
+					<repositoryOwner>ws-cxf-ext</repositoryOwner>
 				</configuration>
 				<executions>
 					<!-- run site-maven-plugin's 'site' target as part of the build's normal 
