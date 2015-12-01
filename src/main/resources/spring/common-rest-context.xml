@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:jaxrs="http://cxf.apache.org/jaxrs-client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="jaxrsJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider" />
+
+    <bean id="jaxrsCalendarProvider" class="org.ws.cxf.ext.utils.others.CalendarProvider" />
+
+    <bean id="responseExceptionHandler" class="org.ws.cxf.ext.utils.others.ResponseExceptionHandler" />
+
+    <bean id="logCltOut" class="org.ws.cxf.ext.interceptor.LogClientInterceptor">
+        <constructor-arg index="0" value="prepare-send" />
+        <property name="currentCorrelationId" ref="currentCorrelationId" />
+    </bean>
+
+    <bean id="logCltIn" class="org.ws.cxf.ext.interceptor.LogClientInterceptor">
+        <constructor-arg index="0" value="receive" />
+        <property name="currentCorrelationId" ref="currentCorrelationId" />
+    </bean>
+
+    <bean id="authCltOut" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">
+        <constructor-arg index="0" value="prepare-send" />
+    </bean>
+
+    <bean id="authCltIn" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">
+        <constructor-arg index="0" value="receive" />
+    </bean>
+
+</beans>
