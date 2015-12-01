@@ -15,8 +15,8 @@ import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +29,7 @@ import org.ws.cxf.ext.correlation.CurrentCorrelationId;
  * 
  */
 public class LogClientInterceptor extends CustomAbstractInterceptor {
-
-	private static final Logger LOGGER = LogManager.getLogger(LogClientInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LogClientInterceptor.class);
 
 	private static final String PARAM_CLIENT_NAME = "clientName";
 	private static final String PARAM_SERVICE = "service";

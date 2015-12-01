@@ -8,8 +8,8 @@ import static org.ws.cxf.ext.utils.SecurityUtils.generateAuthParameters;
 
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
  *
  */
 public class AuthClientInterceptor extends CustomAbstractInterceptor {
-	private static final Logger LOGGER = LogManager.getLogger(AuthClientInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthClientInterceptor.class);
 
 	/**
 	 * Application secret.

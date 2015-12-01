@@ -17,8 +17,8 @@ import javax.annotation.PostConstruct;
 
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.ws.cxf.ext.correlation.CurrentCorrelationId;
 
 /**
@@ -28,14 +28,13 @@ import org.ws.cxf.ext.correlation.CurrentCorrelationId;
  * 
  */
 public class LogServerInterceptor extends CustomAbstractInterceptor {
-
 	private static final String PARAM_LOGIN_USER = "loginUser";
 
 	private static final String PARAM_CLIENT_NAME = "clientName";
 
 	private static final String PARAM_CORRELATION_ID = "correlationId";
 
-	private static final Logger LOGGER = LogManager.getLogger(LogServerInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(LogServerInterceptor.class);
 
 	private CurrentCorrelationId currentCorrelationId;
 

@@ -17,8 +17,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.cxf.helpers.CastUtils;
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * CXF message parsing utils.
@@ -27,7 +27,7 @@ import org.apache.logging.log4j.Logger;
  *
  */
 public class CXFMessageUtils {
-	private static final Logger LOGGER = LogManager.getLogger(CXFMessageUtils.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CXFMessageUtils.class);
 
 	/**
 	 * Getting the URI request.

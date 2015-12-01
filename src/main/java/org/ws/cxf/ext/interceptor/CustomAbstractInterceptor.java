@@ -10,8 +10,8 @@ import java.util.Map;
 
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.AbstractPhaseInterceptor;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Abstract interceptor.
@@ -19,8 +19,7 @@ import org.apache.logging.log4j.Logger;
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  */
 public abstract class CustomAbstractInterceptor extends AbstractPhaseInterceptor<Message> {
-
-	private static final Logger LOGGER = LogManager.getLogger(CustomAbstractInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(CustomAbstractInterceptor.class);
 
 	/**
 	 * Constructor.

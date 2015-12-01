@@ -22,8 +22,8 @@ import javax.ws.rs.NotAuthorizedException;
 
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.ws.cxf.ext.Constants;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
@@ -35,8 +35,7 @@ import org.ws.cxf.ext.auth.CustomBasicAuth;
  * 
  */
 public class AuthServerInterceptor extends CustomAbstractInterceptor {
-
-	private static final Logger LOGGER = LogManager.getLogger(AuthServerInterceptor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AuthServerInterceptor.class);
 
 	private static final String PARAM_CHARSET = "UTF-8";
 
