@@ -59,7 +59,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 		String uri = getRequestURI(message, false);
 
 		if (null != appid) {
-			generateOAuthAuthorization(message, uri);
+			generateAuthAuthorization(message, uri);
 		}
 
 		logAdditionnalTraces(message, LOGGER);
@@ -71,7 +71,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	 * @param message
 	 * @param uri
 	 */
-	private void generateOAuthAuthorization(Message message, String uri) {
+	private void generateAuthAuthorization(Message message, String uri) {
 		addHeaderParam(message, "Authorization", "Auth " + httpBuildQuery(generateAuthParameters(appid, env, uri)));
 	}
 
