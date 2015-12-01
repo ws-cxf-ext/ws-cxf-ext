@@ -76,7 +76,7 @@ public class SecurityUtilsTest extends AbstractTest {
 	}
 
 	/**
-	 * Test sur l'adresse IP.
+	 * Getting adress ip tests.
 	 */
 	@Test
 	public final void testGetIPAdressQuietly() {
@@ -86,7 +86,7 @@ public class SecurityUtilsTest extends AbstractTest {
 	}
 
 	/**
-	 * Test sur les infos de localisation
+	 * Getting location infos tests.
 	 */
 	@Test
 	public final void testGetClientLocalisationInfos() {
