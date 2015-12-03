@@ -6,16 +6,16 @@ import org.apache.cxf.jaxrs.client.ResponseExceptionMapper;
 import org.ws.cxf.ext.exception.FonctionalException;
 
 /**
- * Récupération et traitement de l'exception renvoyée par le service REST dans
- * le header HTTP "Exception".
+ * Getting and process exception that is thrown by a RESTful webservice.
  * 
- * @author Christian Cougourdan <christian.cougourdan@capgemini.com>
+ * @author Christian Cougourdan
  */
 public class ResponseExceptionHandler implements ResponseExceptionMapper<FonctionalException> {
-
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public FonctionalException fromResponse(Response r) {
 		return new FonctionalException(r.getHeaderString("Exception"));
 	}
-
 }
