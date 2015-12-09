@@ -19,7 +19,7 @@ public abstract class AbstractTest {
 	 */
 	public void failWithException(Exception e) {
 		e.printStackTrace();
-		fail("Exception inattendue : " + e.getMessage());
+		fail("Unexpected exception : " + e.getMessage());
 	}
 
 	/**
