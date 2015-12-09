@@ -36,5 +36,8 @@
 
     <bean id="authCltIn" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">
         <constructor-arg index="0" value="receive" />
+        
+        <property name="appid" value="${ws.appid.auth}" />
+        <property name="env" value="${ws.env.auth:dev}" />
     </bean>
 </beans>
