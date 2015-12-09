@@ -16,7 +16,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 /**
- * Programme pour générer un header.
+ * User interface to generate header tokens.
  * 
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *
