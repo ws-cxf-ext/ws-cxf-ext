@@ -1,5 +1,7 @@
 package org.ws.cxf.ext.utils.others;
 
+import static org.ws.cxf.ext.utils.DateUtils.FORMAT_ISO_DATETIME;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Calendar;
@@ -10,7 +12,6 @@ import javax.ws.rs.ext.ParamConverterProvider;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.ws.cxf.ext.Constants;
 
 /**
  * Marshalling/unmarshalling of calendars.
@@ -26,7 +27,7 @@ public class CalendarProvider implements ParamConverterProvider {
 		if (Calendar.class.isAssignableFrom(rawType)) {
 			return new ParamConverter<T>() {
 
-				private final DateTimeFormatter format = DateTimeFormat.forPattern(Constants.DateTime.FORMAT_ISO_DATETIME);
+				private final DateTimeFormatter format = DateTimeFormat.forPattern(FORMAT_ISO_DATETIME);
 
 				/**
 				 * {@inheritDoc}

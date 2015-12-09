@@ -13,6 +13,9 @@ import java.util.Locale;
  */
 public class DateUtils {
 	public static final String FORMAT_DATE = "dd/MM/yyyy";
+	public static final String FORMAT_DATE_HOUR = "dd/MM/yyyy HH:mm:ss";
+	public static final String FORMAT_DATE_HOUR_MINUTE = "dd/MM/yyyy HH:mm";
+	public static final String FORMAT_ISO_DATETIME = "yyyy-MM-dd'T'HH:mm:ss'Z'";
 
 	/**
 	 * Static classe : private constructor.
