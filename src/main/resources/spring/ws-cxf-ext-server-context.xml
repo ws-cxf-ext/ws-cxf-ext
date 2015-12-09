@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:jaxrs="http://cxf.apache.org/jaxrs-client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- README :
+		This is an example of spring configuration on server-side.
+		If you want to import this file directly :
+		1) You must define the following CustomBasicAuth beans before include this file : getAuth, postAuth, putAuth and deleteAuth 
+		2) You should define the following variables in a properties configuration file : ws.disable.auth (disable auth), ws.env.auth (environment)
+	-->
+	
+	<bean id="currentCorrelationId" class="org.ws.cxf.ext.correlation.CurrentCorrelationId" />
+
+    <bean id="authSrvIn" class="org.ws.cxf.ext.interceptor.AuthServerInterceptor">
+        <constructor-arg index="0" value="receive" />
+        <property name="getAuth" ref="authGet" />
+        <property name="postAuth" ref="authPost" />
+        <property name="putAuth" ref="authPut" />
+        <property name="deleteAuth" ref="authDelete" />
+        
+        <property name="disableAuthParam" value="${ws.disable.auth:false}" />
+        <property name="env" value="${ws.env.auth:dev}" />
+    </bean>
+    
+    <bean id="authSrvOut" class="org.ws.cxf.ext.interceptor.AuthServerInterceptor">
+        <constructor-arg index="0" value="send" />
+        <property name="getAuth" ref="authGet" />
+        <property name="postAuth" ref="authPost" />
+        <property name="putAuth" ref="authPut" />
+        <property name="deleteAuth" ref="authDelete" />
+        
+        <property name="disableAuthParam" value="${ws.disable.auth:false}" />
+        <property name="env" value="${ws.env.auth:dev}" />
+    </bean>
+    
+    <bean id="logSrvIn" class="org.ws.cxf.ext.interceptor.LogServerInterceptor">
+        <constructor-arg index="0" value="send" />
+        <property name="currentCorrelationId" ref="currentCorrelationId" />
+    </bean>
+    
+    <bean id="logSrvOut" class="org.ws.cxf.ext.interceptor.LogServerInterceptor">
+        <constructor-arg index="0" value="receive" />
+        <property name="currentCorrelationId" ref="currentCorrelationId" />
+    </bean>
+</beans>

@@ -2,11 +2,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:jaxrs="http://cxf.apache.org/jaxrs-client" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<!-- README :
+		This is an example of spring configuration on client-side.
+		If you want to import this file directly :
+		1) You must define the following variable in a properties configuration file : ws.auth.appid (application secret)
+		2) You should define the following variable in a properties configuration file : ws.auth.env (environment)
+	-->
+
     <bean id="jaxrsJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider" />
 
     <bean id="jaxrsCalendarProvider" class="org.ws.cxf.ext.utils.others.CalendarProvider" />
 
     <bean id="responseExceptionHandler" class="org.ws.cxf.ext.utils.others.ResponseExceptionHandler" />
+    
+    <bean id="currentCorrelationId" class="org.ws.cxf.ext.correlation.CurrentCorrelationId" />
 
     <bean id="logCltOut" class="org.ws.cxf.ext.interceptor.LogClientInterceptor">
         <constructor-arg index="0" value="prepare-send" />
@@ -20,6 +29,9 @@
 
     <bean id="authCltOut" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">
         <constructor-arg index="0" value="prepare-send" />
+        
+        <property name="appid" value="${ws.appid.auth}" />
+        <property name="env" value="${ws.env.auth:dev}" />
     </bean>
 
     <bean id="authCltIn" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">

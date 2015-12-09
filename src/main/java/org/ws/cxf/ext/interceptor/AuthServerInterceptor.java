@@ -24,7 +24,6 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.ws.cxf.ext.Constants;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
 
@@ -40,15 +39,13 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	private static final String PARAM_CHARSET = "UTF-8";
 
 	/**
-	 * Application secret.
+	 * Disable auth flag.
 	 */
-	@Value("${ws.disable.auth:false}")
 	private boolean disableAuthParam;
 
 	/**
 	 * Application environment.
 	 */
-	@Value("${ws.env.auth:dev}")
 	private String env;
 
 	/**
@@ -357,5 +354,35 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 */
 	public void setDeleteAuth(CustomBasicAuth deleteAuth) {
 		this.deleteAuth = deleteAuth;
+	}
+
+	/**
+	 * @return the disableAuthParam
+	 */
+	public boolean isDisableAuthParam() {
+		return disableAuthParam;
+	}
+
+	/**
+	 * @param disableAuthParam
+	 *            the disableAuthParam to set
+	 */
+	public void setDisableAuthParam(boolean disableAuthParam) {
+		this.disableAuthParam = disableAuthParam;
+	}
+
+	/**
+	 * @return the env
+	 */
+	public String getEnv() {
+		return env;
+	}
+
+	/**
+	 * @param env
+	 *            the env to set
+	 */
+	public void setEnv(String env) {
+		this.env = env;
 	}
 }

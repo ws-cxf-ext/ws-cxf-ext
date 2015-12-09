@@ -10,7 +10,6 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 
 /**
  * Authentification interceptor. Client side.
@@ -24,13 +23,11 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	/**
 	 * Application secret.
 	 */
-	@Value("${ws.appid.auth}")
 	private String appid;
 
 	/**
 	 * Application environment.
 	 */
-	@Value("${ws.env.auth:dev}")
 	private String env;
 
 	/**
@@ -96,4 +93,33 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 		}
 	}
 
+	/**
+	 * @return the appid
+	 */
+	public String getAppid() {
+		return appid;
+	}
+
+	/**
+	 * @param appid
+	 *            the appid to set
+	 */
+	public void setAppid(String appid) {
+		this.appid = appid;
+	}
+
+	/**
+	 * @return the env
+	 */
+	public String getEnv() {
+		return env;
+	}
+
+	/**
+	 * @param env
+	 *            the env to set
+	 */
+	public void setEnv(String env) {
+		this.env = env;
+	}
 }
