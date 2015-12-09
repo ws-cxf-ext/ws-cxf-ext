@@ -1,5 +1,6 @@
 package org.ws.cxf.ext.utils.ui;
 
+import static org.ws.cxf.ext.Constants.EMPTY_STRING;
 import static org.ws.cxf.ext.utils.HTTPUtils.httpBuildQuery;
 import static org.ws.cxf.ext.utils.SecurityUtils.generateAuthParameters;
 
@@ -29,6 +30,25 @@ public class AuthHeaderGenerator {
 	private static final int DEFAULT_HEIGHT = 200;
 
 	/**
+	 * Labels.
+	 */
+	private static final String LABEL_URI = "URI";
+	private static final String LABEL_ENV = "Environment";
+	private static final String LABEL_APPID = "Appid";
+	private static final String LABEL_AUTH = "Authorization";
+
+	/**
+	 * Buttons.
+	 */
+	private static final String BTN_RESULT = "Result";
+	private static final String BTN_ERASE = "Erase";
+
+	/**
+	 * Title
+	 */
+	private static final String TITLE_UI = "Auth header generator";
+
+	/**
 	 * Hide default constructor
 	 */
 	private AuthHeaderGenerator() {
@@ -41,7 +61,7 @@ public class AuthHeaderGenerator {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		JFrame frame = new JFrame("Auth header generator");
+		JFrame frame = new JFrame(TITLE_UI);
 
 		JTextField iuri = new JTextField();
 		JTextField ienv = new JTextField();
@@ -52,14 +72,14 @@ public class AuthHeaderGenerator {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(0, GRID_WIDTH));
 
-		JLabel luri = new JLabel("URI");
-		JLabel lenv = new JLabel("Environment");
-		JLabel lappid = new JLabel("Appid");
-		JLabel lauth = new JLabel("Authorization");
+		JLabel luri = new JLabel(LABEL_URI);
+		JLabel lenv = new JLabel(LABEL_ENV);
+		JLabel lappid = new JLabel(LABEL_APPID);
+		JLabel lauth = new JLabel(LABEL_AUTH);
 
-		JButton bgenerate = new JButton("Result");
+		JButton bgenerate = new JButton(BTN_RESULT);
 
-		JButton berase = new JButton("Erase");
+		JButton berase = new JButton(BTN_ERASE);
 
 		panel.add(luri);
 		panel.add(iuri);
@@ -85,10 +105,10 @@ public class AuthHeaderGenerator {
 		berase.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				iuri.setText("");
-				ienv.setText("");
-				iappid.setText("");
-				iresult.setText("");
+				iuri.setText(EMPTY_STRING);
+				ienv.setText(EMPTY_STRING);
+				iappid.setText(EMPTY_STRING);
+				iresult.setText(EMPTY_STRING);
 			}
 		});
 
