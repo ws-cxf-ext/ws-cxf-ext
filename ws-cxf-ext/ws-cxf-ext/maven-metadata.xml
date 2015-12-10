@@ -3,13 +3,14 @@
   <groupId>ws-cxf-ext</groupId>
   <artifactId>ws-cxf-ext</artifactId>
   <versioning>
-    <release>1.0.4</release>
+    <release>1.0.5</release>
     <versions>
       <version>1.0.0</version>
       <version>1.0.1</version>
       <version>1.0.3</version>
       <version>1.0.4</version>
+      <version>1.0.5</version>
     </versions>
-    <lastUpdated>20151210001327</lastUpdated>
+    <lastUpdated>20151210005343</lastUpdated>
   </versioning>
 </metadata>
