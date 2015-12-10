@@ -4,7 +4,6 @@
 
 	<!-- README :
 		This is an example of spring configuration on client-side.
-		If you want to import this file directly :
 		1) You must define the following variable in a properties configuration file : ws.auth.appid (application secret)
 		2) You should define the following variable in a properties configuration file : ws.auth.env (environment)
 	-->
@@ -29,15 +28,9 @@
 
     <bean id="authCltOut" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">
         <constructor-arg index="0" value="prepare-send" />
-        
-        <property name="appid" value="${ws.appid.auth}" />
-        <property name="env" value="${ws.env.auth:dev}" />
     </bean>
 
     <bean id="authCltIn" class="org.ws.cxf.ext.interceptor.AuthClientInterceptor">
         <constructor-arg index="0" value="receive" />
-        
-        <property name="appid" value="${ws.appid.auth}" />
-        <property name="env" value="${ws.env.auth:dev}" />
     </bean>
 </beans>

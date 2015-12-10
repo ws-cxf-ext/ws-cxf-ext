@@ -3,6 +3,7 @@ package org.ws.cxf.ext.interceptor;
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.ws.cxf.ext.Constants.CHARSET_UTF8;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getHeaderParam;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestMethod;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestURI;
@@ -24,6 +25,7 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.ws.cxf.ext.Constants;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
 
@@ -36,16 +38,16 @@ import org.ws.cxf.ext.auth.CustomBasicAuth;
 public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	private static final Logger LOGGER = LoggerFactory.getLogger(AuthServerInterceptor.class);
 
-	private static final String PARAM_CHARSET = "UTF-8";
-
 	/**
 	 * Disable auth flag.
 	 */
+	@Value("${ws.disable.auth:false}")
 	private boolean disableAuthParam;
 
 	/**
 	 * Application environment.
 	 */
+	@Value("${ws.env.auth:dev}")
 	private String env;
 
 	/**
@@ -199,9 +201,9 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 		checkAuthParam("auth_signature_method", authParams.get("auth_signature_method"), "HMAC-SHA1");
 
 		try {
-			hashConsumerKey = URLDecoder.decode(consumerKey, PARAM_CHARSET);
-			hashSignature = URLDecoder.decode(signature, PARAM_CHARSET);
-			tokenDecode = URLDecoder.decode(token, PARAM_CHARSET);
+			hashConsumerKey = URLDecoder.decode(consumerKey, CHARSET_UTF8);
+			hashSignature = URLDecoder.decode(signature, CHARSET_UTF8);
+			tokenDecode = URLDecoder.decode(token, CHARSET_UTF8);
 		} catch (UnsupportedEncodingException e) {
 			throw new NotAuthorizedException("Authentification error : UnsupportedEncodingException " + e.getMessage(), e);
 		}

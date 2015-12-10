@@ -17,9 +17,6 @@
         <property name="postAuth" ref="authPost" />
         <property name="putAuth" ref="authPut" />
         <property name="deleteAuth" ref="authDelete" />
-        
-        <property name="disableAuthParam" value="${ws.disable.auth:false}" />
-        <property name="env" value="${ws.env.auth:dev}" />
     </bean>
     
     <bean id="authSrvOut" class="org.ws.cxf.ext.interceptor.AuthServerInterceptor">
@@ -28,9 +25,6 @@
         <property name="postAuth" ref="authPost" />
         <property name="putAuth" ref="authPut" />
         <property name="deleteAuth" ref="authDelete" />
-        
-        <property name="disableAuthParam" value="${ws.disable.auth:false}" />
-        <property name="env" value="${ws.env.auth:dev}" />
     </bean>
     
     <bean id="logSrvIn" class="org.ws.cxf.ext.interceptor.LogServerInterceptor">

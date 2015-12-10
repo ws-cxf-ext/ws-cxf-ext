@@ -15,6 +15,7 @@ public interface Constants {
 	 */
 	String EMPTY_STRING = "";
 	String EMPTY_JSON = "[]";
+	String CHARSET_UTF8 = "UTF-8";
 
 	/**
 	 * HTTP methods
