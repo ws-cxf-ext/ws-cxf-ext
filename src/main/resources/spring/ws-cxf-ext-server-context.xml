@@ -4,7 +4,6 @@
 	
 	<!-- README :
 		This is an example of spring configuration on server-side.
-		If you want to import this file directly :
 		1) You must define the following CustomBasicAuth beans before include this file : getAuth, postAuth, putAuth and deleteAuth 
 		2) You should define the following variables in a properties configuration file : ws.disable.auth (disable auth), ws.env.auth (environment)
 	-->
