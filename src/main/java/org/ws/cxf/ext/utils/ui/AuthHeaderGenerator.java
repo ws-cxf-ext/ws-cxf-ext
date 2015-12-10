@@ -49,6 +49,11 @@ public class AuthHeaderGenerator {
 	private static final String TITLE_UI = "Auth header generator";
 
 	/**
+	 * Auth token template
+	 */
+	private static final String AUTH_TOKEN_TPL = "Auth %s";
+
+	/**
 	 * Hide default constructor
 	 */
 	private AuthHeaderGenerator() {
@@ -78,17 +83,11 @@ public class AuthHeaderGenerator {
 		JLabel lauth = new JLabel(LABEL_AUTH);
 
 		JButton bgenerate = new JButton(BTN_RESULT);
-
 		JButton berase = new JButton(BTN_ERASE);
 
-		panel.add(luri);
-		panel.add(iuri);
-
-		panel.add(lenv);
-		panel.add(ienv);
-
-		panel.add(lappid);
-		panel.add(iappid);
+		addFieldPanel(luri, iuri, panel);
+		addFieldPanel(lenv, ienv, panel);
+		addFieldPanel(lappid, iappid, panel);
 
 		panel.add(lauth);
 		panel.add(sp);
@@ -115,8 +114,20 @@ public class AuthHeaderGenerator {
 		bgenerate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				iresult.setText("Auth " + httpBuildQuery(generateAuthParameters(iappid.getText(), ienv.getText(), iuri.getText())));
+				iresult.setText(String.format(AUTH_TOKEN_TPL, httpBuildQuery(generateAuthParameters(iappid.getText(), ienv.getText(), iuri.getText()))));
 			}
 		});
+	}
+
+	/**
+	 * Adding field to panel.
+	 * 
+	 * @param label
+	 * @param input
+	 * @param panel
+	 */
+	private static void addFieldPanel(JLabel label, JTextField input, JPanel panel) {
+		panel.add(label);
+		panel.add(input);
 	}
 }
