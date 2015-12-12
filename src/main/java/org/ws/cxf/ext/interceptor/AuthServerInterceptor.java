@@ -15,6 +15,7 @@ import static org.ws.cxf.ext.utils.SecurityUtils.isEquals;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -28,6 +29,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.ws.cxf.ext.Constants;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
+import org.ws.cxf.ext.auth.ExceptionAuth;
 
 /**
  * Authentification interceptor. Server side.
@@ -142,24 +144,24 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	}
 
 	/**
-	 * Return true if the service isn't authentified, otherwise false.
+	 * Return an exception for a webservice if exists.
 	 * 
 	 * @param auth
 	 * @param service
 	 * @return boolean
 	 */
-	private boolean isServiceNotAuthentified(CustomBasicAuth auth, String service) {
+	private ExceptionAuth getServiceException(CustomBasicAuth auth, String service) {
 		if (isEmpty(service) || isEmpty(auth.getExceptions())) {
-			return false;
+			return null;
 		}
 
-		for (String e : auth.getExceptions()) {
-			if (service.toLowerCase().contains(e.toLowerCase())) {
-				return true;
+		for (ExceptionAuth e : auth.getExceptions()) {
+			if (service.toLowerCase().contains(e.getPattern().toLowerCase())) {
+				return e;
 			}
 		}
 
-		return false;
+		return null;
 	}
 
 	/**
@@ -172,7 +174,9 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 
 		String service = getRequestURI(message, true);
 		CustomBasicAuth auth = getBasicAuth(message);
-		if (disableAuthParam || isServiceNotAuthentified(auth, service)) {
+		ExceptionAuth exp = getServiceException(auth, service);
+
+		if (disableAuthParam || (null != exp && null != exp.getDisable() && exp.getDisable())) {
 			LOGGER.warn("Sécurité forcée pour le service : {}", service);
 			return;
 		}
@@ -211,8 +215,9 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 		if (null != auth) {
 			boolean needErr401 = true;
 
-			if (null != hashConsumerKey && isNotEmpty(auth.getAppids())) {
-				needErr401 = !auth.getAppids().stream().anyMatch(isExpectedAuth(service + tokenDecode, hashConsumerKey, hashSignature));
+			List<String> lstAppids = (null == exp) ? auth.getAppids() : exp.getAppids();
+			if (null != hashConsumerKey && isNotEmpty(lstAppids)) {
+				needErr401 = !lstAppids.stream().anyMatch(isExpectedAuth(service + tokenDecode, hashConsumerKey, hashSignature));
 			}
 
 			if (needErr401) {
