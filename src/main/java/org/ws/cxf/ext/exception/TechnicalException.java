@@ -6,7 +6,7 @@ package org.ws.cxf.ext.exception;
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *
  */
-public class TechnicalException extends Exception {
+public class TechnicalException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
