@@ -172,14 +172,21 @@ public class SecurityUtils {
 	 * 
 	 * @return Map<String, String>.
 	 */
-	public static Map<String, String> getClientLocalisationInfos(String ip) {
+	public static Map<String, String> getClientLocalisationInfosQuietly(String ip) {
 		String ws = "http://ipinfo.io/%s/json";
 
 		String url = String.format(ws, ip);
-		String json = httpGet(url);
+		String json = null;
+
+                try {
+                    json = httpGet(url);
+                } catch (CxfExtraTechnicalException e) {
+                    LOGGER.error("Exception", e);
+                    return null;
+                }
 
 		if (isEmpty(json)) {
-			return null;
+                    return null;
 		}
 
 		return json2mapQuietly(json);
