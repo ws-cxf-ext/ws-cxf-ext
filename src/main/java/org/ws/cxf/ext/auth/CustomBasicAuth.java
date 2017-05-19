@@ -1,6 +1,7 @@
 package org.ws.cxf.ext.auth;
 
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Custom Basic Auth.
@@ -47,6 +48,26 @@ public class CustomBasicAuth {
 	public void setAppids(List<String> appids) {
 		this.appids = appids;
 	}
+
+        /**
+         * @return the exceptions
+         */
+        public ExceptionAuth getException() {
+                if(null == exceptions) {
+                    return null;
+                }
+                return exceptions.get(0);
+        }
+
+        /**
+         * @param exceptions
+         *            the exceptions to set
+         */
+        public void setException(ExceptionAuth exception) {
+                this.exceptions = new ArrayList<>();
+                this.exceptions.add(exception);
+        }
+
 
 	/**
 	 * @return the exceptions

@@ -6,7 +6,7 @@
 	<artifactId>ws-cxf-ext</artifactId>
 	<packaging>jar</packaging>
 	<name>ws-cxf-extra</name>
-	<version>1.1.5</version>
+	<version>2.0.0</version>
 	<description>CXF ext for WS (logging and auth)</description>
 
 	<properties>
