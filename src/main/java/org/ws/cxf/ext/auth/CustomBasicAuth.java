@@ -19,6 +19,8 @@ public class CustomBasicAuth {
 
 	private List<ExceptionAuth> exceptions;
 
+        private ExceptionAuth exception;
+
 	/**
 	 * @return the method
 	 */
@@ -53,10 +55,7 @@ public class CustomBasicAuth {
          * @return the exceptions
          */
         public ExceptionAuth getException() {
-                if(null == exceptions) {
-                    return null;
-                }
-                return exceptions.get(0);
+                return exception;
         }
 
         /**
@@ -64,8 +63,9 @@ public class CustomBasicAuth {
          *            the exceptions to set
          */
         public void setException(ExceptionAuth exception) {
+                this.exception = exception;
                 this.exceptions = new ArrayList<>();
-                this.exceptions.add(exception);
+                this.exceptions.add(this.exception);
         }
 
 
