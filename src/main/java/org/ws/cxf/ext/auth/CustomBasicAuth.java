@@ -64,8 +64,6 @@ public class CustomBasicAuth {
          */
         public void setException(ExceptionAuth exception) {
                 this.exception = exception;
-                this.exceptions = new ArrayList<>();
-                this.exceptions.add(this.exception);
         }
 
 

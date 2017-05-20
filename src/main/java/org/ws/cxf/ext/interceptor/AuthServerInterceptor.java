@@ -16,6 +16,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -151,11 +152,20 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 * @return boolean
 	 */
 	private ExceptionAuth getServiceException(CustomBasicAuth auth, String service) {
-		if (isEmpty(service) || isEmpty(auth.getExceptions())) {
+                List<ExceptionAuth> exs = auth.getExceptions();
+                if(null == exs) {
+                     exs = new ArrayList<>();
+                }
+
+                if(null != auth.getException()) {
+                     exs.add(auth.getException());
+                }
+
+		if (isEmpty(service) || isEmpty(exs)) {
 			return null;
 		}
 
-		for (ExceptionAuth e : auth.getExceptions()) {
+		for (ExceptionAuth e : exs) {
 			if (service.toLowerCase().contains(e.getPattern().toLowerCase())) {
 				return e;
 			}
