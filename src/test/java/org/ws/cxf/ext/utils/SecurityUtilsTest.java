@@ -90,7 +90,7 @@ public class SecurityUtilsTest extends AbstractTest {
 	 */
 	@Test
 	public final void testGetClientLocalisationInfos() {
-		Map<String, String> map = SecurityUtils.getClientLocalisationInfos("197.17.201.138");
+		Map<String, String> map = SecurityUtils.getClientLocalisationInfosQuietly("197.17.201.138");
 		System.out.println("infos = " + JSONUtils.map2json(map));
 		assertNotNull(map);
 		assertTrue(MapUtils.isNotEmpty(map));
