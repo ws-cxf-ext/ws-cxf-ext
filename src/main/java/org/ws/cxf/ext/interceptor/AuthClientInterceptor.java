@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
- * Authentification interceptor. Client side.
+ * Authentication interceptor. Client side.
  * 
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *

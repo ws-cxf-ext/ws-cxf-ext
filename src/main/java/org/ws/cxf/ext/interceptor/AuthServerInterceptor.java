@@ -33,7 +33,7 @@ import org.ws.cxf.ext.auth.CustomBasicAuth;
 import org.ws.cxf.ext.auth.ExceptionAuth;
 
 /**
- * Authentification interceptor. Server side.
+ * Authentication interceptor. Server side.
  * 
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  * 
@@ -187,13 +187,13 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 		ExceptionAuth exp = getServiceException(auth, service);
 
 		if (disableAuthParam || (null != exp && null != exp.getDisable() && exp.getDisable())) {
-			LOGGER.warn("Sécurité forcée pour le service : {}", service);
+			LOGGER.warn("Forced security for the service : {}", service);
 			return;
 		}
 
 		if (isEmpty(authorization)) {
-			LOGGER.warn("Pas d'informations d'authentification pour le service : {}", service);
-			throw new NotAuthorizedException("Authentification error");
+			LOGGER.warn("Missing authentication information for the service : {}", service);
+			throw new NotAuthorizedException("Authentication error");
 		}
 
 		Map<String, String> authParams = getQueryMap(authorization);
@@ -219,7 +219,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 			hashSignature = URLDecoder.decode(signature, CHARSET_UTF8);
 			tokenDecode = URLDecoder.decode(token, CHARSET_UTF8);
 		} catch (UnsupportedEncodingException e) {
-			throw new NotAuthorizedException("Authentification error : UnsupportedEncodingException " + e.getMessage(), e);
+			throw new NotAuthorizedException("Authentication error : UnsupportedEncodingException " + e.getMessage(), e);
 		}
 
 		if (null != auth) {
@@ -232,7 +232,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 
 			if (needErr401) {
 				LOGGER.warn("Unknown consumer : " + hashConsumerKey);
-				throw new NotAuthorizedException("Authentification error");
+				throw new NotAuthorizedException("Authentication error");
 			}
 		}
 	}

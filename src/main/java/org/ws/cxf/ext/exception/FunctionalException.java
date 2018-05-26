@@ -6,14 +6,14 @@ package org.ws.cxf.ext.exception;
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *
  */
-public class FonctionalException extends Exception {
+public class FunctionalException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Default constructor.
 	 */
-	public FonctionalException() {
+	public FunctionalException() {
 		super();
 	}
 
@@ -23,7 +23,7 @@ public class FonctionalException extends Exception {
 	 * @param code
 	 * @param cause
 	 */
-	public FonctionalException(String code, Throwable cause) {
+	public FunctionalException(String code, Throwable cause) {
 		super(code, cause);
 	}
 
@@ -32,7 +32,7 @@ public class FonctionalException extends Exception {
 	 * 
 	 * @param code
 	 */
-	public FonctionalException(String code) {
+	public FunctionalException(String code) {
 		super(code);
 	}
 
@@ -41,7 +41,7 @@ public class FonctionalException extends Exception {
 	 * 
 	 * @param cause
 	 */
-	public FonctionalException(Throwable cause) {
+	public FunctionalException(Throwable cause) {
 		super(cause);
 	}
 

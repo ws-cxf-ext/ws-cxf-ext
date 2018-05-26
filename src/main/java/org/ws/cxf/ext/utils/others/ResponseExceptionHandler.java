@@ -5,7 +5,7 @@ import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.client.ResponseExceptionMapper;
-import org.ws.cxf.ext.exception.FonctionalException;
+import org.ws.cxf.ext.exception.FunctionalException;
 import org.ws.cxf.ext.exception.TechnicalException;
 
 /**
@@ -22,8 +22,8 @@ public class ResponseExceptionHandler implements ResponseExceptionMapper<Excepti
 		String typeOfException = r.getHeaderString("ExceptionType");
 		String message = r.getHeaderString("Exception");
 
-		if (FonctionalException.class.getSimpleName().equalsIgnoreCase(typeOfException)) {
-			return new FonctionalException(message);
+		if (FunctionalException.class.getSimpleName().equalsIgnoreCase(typeOfException)) {
+			return new FunctionalException(message);
 		} else if (BadRequestException.class.getSimpleName().equalsIgnoreCase(typeOfException)) {
 			return new BadRequestException(message);
 		} else if (NotFoundException.class.getSimpleName().equalsIgnoreCase(typeOfException)) {

@@ -105,7 +105,7 @@ public class CustomSecurityContextStub implements SecurityContext {
 	}
 
 	/**
-	 * Authentification stub.
+	 * Authentication stub.
 	 * 
 	 * @author Idriss Neumann <neumann.idriss@gmail.com>
 	 *
