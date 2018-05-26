@@ -1,7 +1,7 @@
 # Overview
 
 WS CXF EXT is a CXF and Spring Security plugin which aims to:
-* Authentificating RESTful or SOAP webservices by a HTTP set of headers (HMAC-SHA1);
+* Securizing RESTful or SOAP webservices with HMAC-SHA1 headers authentication;
 * Logging webservices calling with additionnal informations like the user of a Spring Security context;
 * Marshalling/unmarshalling of a set of exception (functional and technical) and Calendars.
 
