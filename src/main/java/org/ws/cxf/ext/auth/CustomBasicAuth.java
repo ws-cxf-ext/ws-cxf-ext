@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *
  */
-public class CustomBasicAuth {
+public class CustomBasicAuth implements IAuth {
 	/**
 	 * PUT, POST, GET, DELETE
 	 */

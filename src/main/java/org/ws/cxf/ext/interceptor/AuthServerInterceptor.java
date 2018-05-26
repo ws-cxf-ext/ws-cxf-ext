@@ -2,6 +2,7 @@ package org.ws.cxf.ext.interceptor;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.ws.cxf.ext.Constants.CHARSET_UTF8;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getHeaderParam;
@@ -18,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 import javax.annotation.PostConstruct;
@@ -31,6 +33,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.ws.cxf.ext.Constants;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
 import org.ws.cxf.ext.auth.ExceptionAuth;
+import org.ws.cxf.ext.auth.IAuth;
+import org.ws.cxf.ext.auth.IAuth.Default;
 
 /**
  * Authentication interceptor. Server side.
@@ -89,13 +93,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 			return;
 		}
 
-		for (String appid : auth.getAppids()) {
-			if (hashByAppid.containsKey(appid)) {
-				continue;
-			}
-
-			hashByAppid.put(appid, getHashFromAppid(appid));
-		}
+		auth.getAppids().stream().filter(appid -> !hashByAppid.containsKey(appid)).forEach(appid -> hashByAppid.put(appid, getHashFromAppid(appid)));
 	}
 
 	/**
@@ -103,7 +101,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 */
 	@PostConstruct
 	public void init() {
-		hashByAppid = new HashMap<String, String>();
+		hashByAppid = new HashMap<>();
 		populateHashByAppid(getAuth);
 		populateHashByAppid(postAuth);
 		populateHashByAppid(putAuth);
@@ -118,7 +116,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 */
 	private String getHashFromAppid(String appid) {
 		if (null == hashByAppid) {
-			hashByAppid = new HashMap<String, String>();
+			hashByAppid = new HashMap<>();
 		}
 
 		if (!hashByAppid.containsKey(appid)) {
@@ -146,32 +144,27 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 
 	/**
 	 * Return an exception for a webservice if exists.
-	 * 
-	 * @param auth
-	 * @param service
-	 * @return boolean
+	 *
 	 */
-	private ExceptionAuth getServiceException(CustomBasicAuth auth, String service) {
-                List<ExceptionAuth> exs = auth.getExceptions();
-                if(null == exs) {
-                     exs = new ArrayList<>();
-                }
-
-                if(null != auth.getException()) {
-                     exs.add(auth.getException());
-                }
-
-		if (isEmpty(service) || isEmpty(exs)) {
-			return null;
+	private Optional<ExceptionAuth> getServiceException(Optional<CustomBasicAuth> auth, String service) {
+		if(!auth.isPresent()) {
+			return Optional.empty();
 		}
 
-		for (ExceptionAuth e : exs) {
-			if (service.toLowerCase().contains(e.getPattern().toLowerCase())) {
-				return e;
-			}
+		List<ExceptionAuth> exs = auth.get().getExceptions();
+		if(isEmpty(exs)) {
+			exs = new ArrayList<>();
 		}
 
-		return null;
+		if(null != auth.get().getException()) {
+			exs.add(auth.get().getException());
+		}
+
+		if (isBlank(service) || isEmpty(exs)) {
+			return Optional.empty();
+		}
+
+		return exs.stream().filter(e -> service.toLowerCase().contains(e.getPattern().toLowerCase())).findFirst();
 	}
 
 	/**
@@ -183,10 +176,10 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 		String authorization = getHeaderParam(message, "Authorization");
 
 		String service = getRequestURI(message, true);
-		CustomBasicAuth auth = getBasicAuth(message);
-		ExceptionAuth exp = getServiceException(auth, service);
+		Optional<CustomBasicAuth> auth = getBasicAuth(message);
+		Optional<ExceptionAuth> exp = getServiceException(auth, service);
 
-		if (disableAuthParam || (null != exp && null != exp.getDisable() && exp.getDisable())) {
+		if (disableAuthParam || (exp.isPresent() && null != exp.get().getDisable() && exp.get().getDisable())) {
 			LOGGER.warn("Forced security for the service : {}", service);
 			return;
 		}
@@ -222,10 +215,10 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 			throw new NotAuthorizedException("Authentication error : UnsupportedEncodingException " + e.getMessage(), e);
 		}
 
-		if (null != auth) {
+		if (auth.isPresent()) {
 			boolean needErr401 = true;
 
-			List<String> lstAppids = (null == exp) ? auth.getAppids() : exp.getAppids();
+			List<String> lstAppids = lstAppids(exp, auth);
 			if (null != hashConsumerKey && isNotEmpty(lstAppids)) {
 				needErr401 = !lstAppids.stream().anyMatch(isExpectedAuth(service + tokenDecode, hashConsumerKey, hashSignature));
 			}
@@ -235,6 +228,10 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 				throw new NotAuthorizedException("Authentication error");
 			}
 		}
+	}
+
+	public List<String> lstAppids(Optional<? extends IAuth> o1, Optional<? extends IAuth> o2) {
+		return o1.map(o -> (IAuth) o).orElse(o2.map(o -> (IAuth) o).orElse(new IAuth.Default())).getAppids();
 	}
 
 	/**
@@ -281,24 +278,22 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 
 	/**
 	 * Getting all client authorizations from HTTP method.
-	 * 
-	 * @param message
-	 * @return CustomBasicAuth
+	 *
 	 */
-	private CustomBasicAuth getBasicAuth(Message message) {
+	private Optional<CustomBasicAuth> getBasicAuth(Message message) {
 		String requestMethod = getRequestMethod(message);
 
 		if (Constants.HTTP_GET.equalsIgnoreCase(requestMethod)) {
-			return getAuth;
+			return Optional.ofNullable(getAuth);
 		} else if (Constants.HTTP_POST.equalsIgnoreCase(requestMethod)) {
-			return postAuth;
+			return Optional.ofNullable(postAuth);
 		} else if (Constants.HTTP_PUT.equalsIgnoreCase(requestMethod)) {
-			return putAuth;
+			return Optional.ofNullable(putAuth);
 		} else if (Constants.HTTP_DELETE.equalsIgnoreCase(requestMethod)) {
-			return deleteAuth;
+			return Optional.ofNullable(deleteAuth);
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 	/**

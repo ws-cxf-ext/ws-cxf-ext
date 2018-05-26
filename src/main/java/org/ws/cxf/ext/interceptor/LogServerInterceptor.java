@@ -82,7 +82,7 @@ public class LogServerInterceptor extends CustomAbstractInterceptor {
 			currentCorrelationId.setCurrentUser(loginUser);
 		}
 
-		Map<String, String> infos = new HashMap<String, String>();
+		Map<String, String> infos = new HashMap<>();
 		infos.put(PARAM_CORRELATION_ID, correlationId);
 		infos.put("phase", getPhase());
 		infos.put("method", getRequestMethod(message));

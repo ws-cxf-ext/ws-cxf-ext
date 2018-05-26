@@ -1,5 +1,6 @@
 package org.ws.cxf.ext.interceptor;
 
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.addHeaderParam;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestURI;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.isPhaseOutbound;
@@ -58,7 +59,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 
 		String uri = getRequestURI(message, false);
 
-		if (null != appid) {
+		if (isNotBlank(appid)) {
 			generateAuthAuthorization(message, uri);
 		}
 

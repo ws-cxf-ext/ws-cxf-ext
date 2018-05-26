@@ -83,7 +83,7 @@ public class LogClientInterceptor extends CustomAbstractInterceptor {
 		String correlationId = (null == currentCorrelationId) ? null : getCorrelationId(message, currentCorrelationId.getCurrentCorrelationId());
 		String clientName = (null == currentCorrelationId) ? null : getClient(message, currentCorrelationId.getCurrentClient());
 
-		Map<String, String> infos = new HashMap<String, String>();
+		Map<String, String> infos = new HashMap<>();
 
 		infos.put(INFO_CORRELATION_ID, correlationId);
 		infos.put(INFO_PHASE, getPhase());
@@ -113,7 +113,7 @@ public class LogClientInterceptor extends CustomAbstractInterceptor {
 		String correlationId = null == currentCorrelationId ? null : getCorrelationId(message, currentCorrelationId.getCurrentCorrelationId());
 		String clientName = null == currentCorrelationId ? null : getClient(message, currentCorrelationId.getCurrentClient());
 
-		Map<String, String> infos = new HashMap<String, String>();
+		Map<String, String> infos = new HashMap<>();
 		infos.put(INFO_CORRELATION_ID, correlationId);
 		infos.put(INFO_PHASE, getPhase());
 		infos.put(INFO_CODE, String.valueOf(getRequestReturnCode(message)));

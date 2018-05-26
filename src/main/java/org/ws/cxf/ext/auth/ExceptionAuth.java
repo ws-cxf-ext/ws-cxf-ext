@@ -9,7 +9,7 @@ import java.util.List;
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *
  */
-public class ExceptionAuth {
+public class ExceptionAuth implements IAuth {
 	/**
 	 * Pattern wich match the webservice URI.
 	 */

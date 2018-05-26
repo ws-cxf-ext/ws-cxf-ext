@@ -10,17 +10,17 @@ public class CurrentCorrelationId {
 	/**
 	 * Correlation id.
 	 */
-	private static final ThreadLocal<String> CURRENT = new ThreadLocal<String>();
+	private static final ThreadLocal<String> CURRENT = new ThreadLocal<>();
 
 	/**
 	 * Client.
 	 */
-	private static final ThreadLocal<String> CURRENT_CLIENT = new ThreadLocal<String>();
+	private static final ThreadLocal<String> CURRENT_CLIENT = new ThreadLocal<>();
 
 	/**
 	 * Connected user login (from Spring security context).
 	 */
-	private static final ThreadLocal<String> CURRENT_USER = new ThreadLocal<String>();
+	private static final ThreadLocal<String> CURRENT_USER = new ThreadLocal<>();
 
 	/**
 	 * Getting the correlation id.
