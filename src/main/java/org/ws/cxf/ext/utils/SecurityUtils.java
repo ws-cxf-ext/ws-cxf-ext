@@ -178,12 +178,12 @@ public class SecurityUtils {
 		String url = String.format(ws, ip);
 		String json = null;
 
-                try {
-                    json = httpGet(url);
-                } catch (CxfExtraTechnicalException e) {
-                    LOGGER.error("Exception", e);
-                    return null;
-                }
+		try {
+			json = httpGet(url);
+		} catch (CxfExtraTechnicalException e) {
+			LOGGER.error("Exception", e);
+			return null;
+		}
 
 		if (isEmpty(json)) {
                     return null;

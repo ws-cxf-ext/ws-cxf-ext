@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
  * 
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  */
-public class CxfExtraTechnicalException extends RuntimeException {
+public class CxfExtraTechnicalException extends TechnicalException {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CxfExtraTechnicalException.class);
 
 	private static final long serialVersionUID = 1L;

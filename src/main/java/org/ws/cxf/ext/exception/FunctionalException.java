@@ -6,7 +6,7 @@ package org.ws.cxf.ext.exception;
  * @author Idriss Neumann <neumann.idriss@gmail.com>
  *
  */
-public class FunctionalException extends Exception {
+public class FunctionalException extends Exception implements ICxfExtraException {
 
 	private static final long serialVersionUID = 1L;
 
