@@ -6,6 +6,7 @@ import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestURI;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.isPhaseOutbound;
 import static org.ws.cxf.ext.utils.HTTPUtils.httpBuildQuery;
 import static org.ws.cxf.ext.utils.SecurityUtils.generateAuthParameters;
+import static org.ws.cxf.ext.utils.Utils.generateSignature;
 
 import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
@@ -73,7 +74,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	 * @param uri
 	 */
 	private void generateAuthAuthorization(Message message, String uri) {
-		addHeaderParam(message, "Authorization", "Auth " + httpBuildQuery(generateAuthParameters(appid, env, uri)));
+		addHeaderParam(message, "Authorization", generateSignature(appid, env, uri));
 	}
 
 	/**

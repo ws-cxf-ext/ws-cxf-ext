@@ -86,7 +86,6 @@ public class Utils {
 
     public static CheckStatus checkAuthParam(String paramName, String paramValue, String expectedValue) {
         if (null == paramValue || (null != expectedValue && !expectedValue.equalsIgnoreCase(paramValue))) {
-            LOGGER.warn("{} haven't a good value", paramName);
             return CheckStatus.newInstance().ko().message(paramName + " haven't a good value");
         }
 
