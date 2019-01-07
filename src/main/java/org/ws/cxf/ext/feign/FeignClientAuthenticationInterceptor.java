@@ -5,8 +5,6 @@ import feign.RequestTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.ws.cxf.ext.utils.Utils.extractHostServiceProvider;
-import static org.ws.cxf.ext.utils.Utils.extractUrlServiceProvider;
 import static org.ws.cxf.ext.utils.Utils.generateSignature;
 
 public class FeignClientAuthenticationInterceptor implements RequestInterceptor {
@@ -18,19 +16,15 @@ public class FeignClientAuthenticationInterceptor implements RequestInterceptor 
 
   private String url;
 
-  private String host;
-
   public FeignClientAuthenticationInterceptor(String url, String appid, String env) {
-    this.url = extractUrlServiceProvider(url);
-    this.host = extractHostServiceProvider(url);
+    this.url = url;
     this.appid = appid;
     this.env = env;
 
-    LOGGER.info("[FeignClientAuthenticationInterceptor] Loading FeignClientAuthenticationInterceptor with env = {}, appid = {}, url = {}, host = {}",
+    LOGGER.info("[FeignClientAuthenticationInterceptor] Loading FeignClientAuthenticationInterceptor with env = {}, appid = {}, url = {}",
         this.env,
         this.appid,
-        this.url,
-        this.host);
+        this.url);
   }
 
   @Override

@@ -41,24 +41,6 @@ public class Utils {
      */
     private static final String AUTH_TOKEN_TPL = "Auth %s";
 
-    public static String extractHostServiceProvider(String url) {
-        String[] array = url.split("/");
-        if (array.length < 1) {
-            return null;
-        }
-
-        return array[0];
-    }
-
-    public static String extractUrlServiceProvider(String url) {
-        String[] array = url.split("/");
-        if (array.length < 3) {
-            return null;
-        }
-
-        return array[0] + "//" + array[2];
-    }
-
     public static Optional<ExceptionAuth> getServiceException(Optional<CustomBasicAuth> auth, String service) {
         if(!auth.isPresent()) {
             return Optional.empty();
