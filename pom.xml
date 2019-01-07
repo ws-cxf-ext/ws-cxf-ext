@@ -6,7 +6,7 @@
 	<artifactId>ws-cxf-ext</artifactId>
 	<packaging>jar</packaging>
 	<name>ws-cxf-extra</name>
-	<version>2.0.6</version>
+	<version>3.0.0</version>
 	<description>CXF ext for WS (logging and auth)</description>
 
 	<properties>
@@ -51,6 +51,8 @@
 		
 		<!-- github server corresponds to entry in ~/.m2/settings.xml -->
 		<github.global.server>github</github.global.server>
+
+		<feign.version>9.5.1</feign.version>
 	</properties>
 
 	<dependencies>
@@ -173,6 +175,12 @@
 			<artifactId>cxf-rt-frontend-jaxws</artifactId>
 			<version>${cxf.version}</version>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>io.github.openfeign</groupId>
+			<artifactId>feign-core</artifactId>
+			<version>${feign.version}</version>
 		</dependency>
 
 		<dependency>

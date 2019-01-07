@@ -1,8 +1,7 @@
 package org.ws.cxf.ext.utils.ui;
 
 import static org.ws.cxf.ext.Constants.EMPTY_STRING;
-import static org.ws.cxf.ext.utils.HTTPUtils.httpBuildQuery;
-import static org.ws.cxf.ext.utils.SecurityUtils.generateAuthParameters;
+import static org.ws.cxf.ext.utils.Utils.generateSignature;
 
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -47,11 +46,6 @@ public class AuthHeaderGenerator {
 	 * Title
 	 */
 	private static final String TITLE_UI = "Auth header generator";
-
-	/**
-	 * Auth token template
-	 */
-	private static final String AUTH_TOKEN_TPL = "Auth %s";
 
 	/**
 	 * Hide default constructor
@@ -114,10 +108,12 @@ public class AuthHeaderGenerator {
 		bgenerate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				iresult.setText(String.format(AUTH_TOKEN_TPL, httpBuildQuery(generateAuthParameters(iappid.getText(), ienv.getText(), iuri.getText()))));
+				iresult.setText(generateSignature(iappid.getText(), ienv.getText(), iuri.getText()));
 			}
 		});
 	}
+
+
 
 	/**
 	 * Adding field to panel.
