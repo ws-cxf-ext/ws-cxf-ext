@@ -140,7 +140,6 @@ public class Utils {
         String hashConsumerKey = null;
         String hashSignature = null;
         String tokenDecode = null;
-        String serviceDecode = null;
 
         // Parameter checking
         String consumerKey = authParams.get("auth_consumer_key");
@@ -186,7 +185,6 @@ public class Utils {
             hashConsumerKey = URLDecoder.decode(consumerKey, CHARSET_UTF8);
             hashSignature = URLDecoder.decode(signature, CHARSET_UTF8);
             tokenDecode = URLDecoder.decode(token, CHARSET_UTF8);
-            serviceDecode = URLDecoder.decode(service, CHARSET_UTF8);
         } catch (UnsupportedEncodingException e) {
             return CheckStatus.newInstance().ko().message("UnsupportedEncodingException " + e.getMessage());
         }
@@ -196,7 +194,7 @@ public class Utils {
 
             List<String> lstAppids = lstAppids(exp, auth);
             if (null != hashConsumerKey && isNotEmpty(lstAppids)) {
-                needErr401 = !lstAppids.stream().anyMatch(isExpectedAuth(env, serviceDecode + tokenDecode, hashConsumerKey, hashSignature, hashByAppid));
+                needErr401 = !lstAppids.stream().anyMatch(isExpectedAuth(env, service + tokenDecode, hashConsumerKey, hashSignature, hashByAppid));
             }
 
             if (needErr401) {
