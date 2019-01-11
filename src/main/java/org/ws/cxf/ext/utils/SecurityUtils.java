@@ -1,6 +1,7 @@
 package org.ws.cxf.ext.utils;
 
 import static org.apache.commons.codec.binary.Base64.encodeBase64;
+import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.ws.cxf.ext.utils.DateUtils.getCurrentTime;
 import static org.ws.cxf.ext.utils.HTTPUtils.httpGet;
@@ -157,10 +158,10 @@ public class SecurityUtils {
 
 		if(null != ipAddress && ipAddress.contains(",")) {
 			String[] ips = ipAddress.split(",");
-			return null != ips && ips.length > 0 ? ips[0] : ipAddress;
+			ipAddress = null != ips && ips.length > 0 ? ips[0] : ipAddress;
 		}
 
-		return ipAddress;
+		return isBlank(ipAddress) ? ipAddress : ipAddress.trim();
 	}
 
 	/**
