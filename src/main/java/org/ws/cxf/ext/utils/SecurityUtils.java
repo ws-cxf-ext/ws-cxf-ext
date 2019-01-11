@@ -88,7 +88,7 @@ public class SecurityUtils {
 
 			return hexString.toString();
 		} catch (NoSuchAlgorithmException | CloneNotSupportedException e) {
-			LOGGER.error("Exception", e);
+			LOGGER.error("[getMD5HashQuietly] exception e.message = {}, e.type = {}", e.getMessage(), e.getClass().getSimpleName());
 		}
 
 		return null;
