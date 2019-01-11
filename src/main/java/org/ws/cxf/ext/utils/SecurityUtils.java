@@ -138,7 +138,7 @@ public class SecurityUtils {
 			ip = InetAddress.getLocalHost();
 			return ip.getHostAddress();
 		} catch (UnknownHostException e) {
-			LOGGER.error("[getIPAdressQuietly] error : " + e.getMessage(), e);
+			LOGGER.error("[getIPAdressQuietly] e.message = {}, e.type = {}", e.getMessage(), e.getClass().getSimpleName());
 			return null;
 		}
 	}
@@ -153,6 +153,11 @@ public class SecurityUtils {
 
 		if (ipAddress == null) {
 			ipAddress = request.getRemoteAddr();
+		}
+
+		if(null != ipAddress && ipAddress.contains(",")) {
+			String[] ips = ipAddress.split(",");
+			return null != ips && ips.length > 0 ? ips[0] : ipAddress;
 		}
 
 		return ipAddress;
@@ -181,12 +186,12 @@ public class SecurityUtils {
 		try {
 			json = httpGet(url);
 		} catch (CxfExtraTechnicalException e) {
-			LOGGER.error("Exception", e);
+			LOGGER.error("[getClientLocalisationInfosQuietly] exception e.message = {}, e.type = {}", e.getMessage(), e.getClass().getSimpleName());
 			return null;
 		}
 
 		if (isEmpty(json)) {
-                    return null;
+			return null;
 		}
 
 		return json2mapQuietly(json);
