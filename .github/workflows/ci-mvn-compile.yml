@@ -14,4 +14,7 @@ jobs:
     - name: Compile
       run: mvn clean install --file pom.xml
     - name: Deploy
-      run: mvn deploy --file pom.xml
+      env:
+        GITHUB_USERNAME: ${{ secrets.githubUsername }}
+        GITHUB_PASSWORD: ${{ secrets.githubPassword }}
+      run: mvn deploy -Dgithub.username=$GITHUB_USERNAME -Dgithub.password=$GITHUB_PASSWORD --file pom.xml
