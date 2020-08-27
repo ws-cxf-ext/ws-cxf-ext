@@ -1,4 +1,4 @@
-name: Kafka-ETL-CI
+name: WS-CXF-EXT-CI
 
 on: [push]
 
