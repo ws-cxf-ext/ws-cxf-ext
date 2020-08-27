@@ -170,6 +170,10 @@ public class SecurityUtils {
 	 * @return ip
 	 */
 	public static String getIPAdressQuietly(ServletRequest request) {
+		if(request instanceof HttpServletRequest) {
+			return getIPAdressQuietly((HttpServletRequest) request);
+		}
+
 		return request.getRemoteAddr();
 	}
 
