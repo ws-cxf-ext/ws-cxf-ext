@@ -4,4 +4,4 @@ WS CXF &amp; Spring security plugin (RESTful &amp; SOAP webservices authenticati
 
 See the wiki to get more information : https://github.com/ws-cxf-ext/ws-cxf-ext/wiki
 
-Continuous integration : http://comwork.io/jenkins
+Continuous integration : https://github.com/ws-cxf-ext/ws-cxf-ext/actions
