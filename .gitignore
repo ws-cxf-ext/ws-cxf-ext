@@ -62,3 +62,5 @@ local.properties
 
 target
 
+*.code-workspace
+
