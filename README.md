@@ -6,6 +6,7 @@ WS CXF &amp; Spring security plugin (RESTful &amp; SOAP webservices authenticati
 
 * Main repo: https://gitlab.comwork.io/oss/ws-cxf-ext
 * Github mirror and mvn repo: https://github.com/ws-cxf-ext/ws-cxf-ext
+* Gitlab mirror backup: https://gitlab.com/ineumann/ws-cxf-ext
 
 ## Documentation
 
