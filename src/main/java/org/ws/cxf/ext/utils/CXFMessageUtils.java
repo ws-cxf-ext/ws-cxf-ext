@@ -2,6 +2,7 @@ package org.ws.cxf.ext.utils;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +40,8 @@ public class CXFMessageUtils {
 	public static String getRequestURI(Message message, boolean addHost) {
 		String queryString = getQueryString(message);
 		String requestURI = (String) message.get(Message.REQUEST_URI);
-		String host = (!addHost) ? "" : getHeaderParam(message, "X-Forwarded-Proto") + "://" + getHeaderParam(message, "host");
+		String proto = getHeaderParam(message, "X-Forwarded-Proto");
+		String host = (!addHost) ? "" : (isNotBlank(proto) ? proto : "http") + "://" + getHeaderParam(message, "host");
 
 		return host + requestURI + ((isEmpty(queryString)) ? "" : "?" + queryString);
 	}
