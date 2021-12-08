@@ -119,7 +119,7 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 		if(!status.isOk()) {
 			service = getRequestURI(message, true, EMPTY);
 			exp = getServiceException(auth, service);
-			status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid)
+			status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid);
 		}
 
 		if(!status.isOk()) {
