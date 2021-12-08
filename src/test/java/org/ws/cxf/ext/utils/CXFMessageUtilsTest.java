@@ -21,7 +21,7 @@ public class CXFMessageUtilsTest extends AbstractTest {
 	 */
 	@Test
 	public final void testKeepOnlyWebserviceRequestNominal() {
-		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("http://127.0.0.1:8080/api/v1/service?foo=bar", "/api"));
+		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("http://127.0.0.1:8080/subpath/api/v1/service?foo=bar", "/subpath/api"));
 		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("https://api.mydomain.io/api/v1/service?foo=bar", "/api"));
 		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("https://api.mydomain.io/v1/service?foo=bar", "/api"));
 	}

@@ -24,6 +24,7 @@ import static org.apache.commons.lang3.StringUtils.isBlank;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
 import static org.ws.cxf.ext.Constants.CHARSET_UTF8;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestMethod;
+import static org.ws.cxf.ext.utils.CXFMessageUtils.keepOnlyWebserviceRequest;
 import static org.ws.cxf.ext.utils.HTTPUtils.getQueryMap;
 import static org.ws.cxf.ext.utils.HTTPUtils.httpBuildQuery;
 import static org.ws.cxf.ext.utils.SecurityUtils.generateAuthParameters;
@@ -62,8 +63,8 @@ public class Utils {
         return exs.stream().filter(e -> service.toLowerCase().contains(e.getPattern().toLowerCase())).findFirst();
     }
 
-    public static String generateSignature(String appid, String env, String uri) {
-        return String.format(AUTH_TOKEN_TPL, httpBuildQuery(generateAuthParameters(appid, env, uri)));
+    public static String generateSignature(String appid, String env, String uri, String subpathToSubstract) {
+        return String.format(AUTH_TOKEN_TPL, httpBuildQuery(generateAuthParameters(appid, env, keepOnlyWebserviceRequest(uri, subpathToSubstract))));
     }
 
     public static CheckStatus checkAuthParam(String paramName, String paramValue, String expectedValue) {

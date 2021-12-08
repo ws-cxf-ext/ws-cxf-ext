@@ -1,8 +1,8 @@
 package org.ws.cxf.ext.utils;
 
 import static org.apache.commons.collections.CollectionUtils.isEmpty;
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.apache.commons.lang3.StringUtils.isEmpty;
-import static org.apache.commons.lang3.StringUtils.isNotBlank;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +37,7 @@ public class CXFMessageUtils {
 	 * @return
 	 */
 	public static String keepOnlyWebserviceRequest(String uri, String subpathToSubstract) {
-		return uri.replaceAll("http(s)?://[^/]*", "").replaceAll(subpathToSubstract, "");
+		return uri.replaceAll("http(s)?://[^/]*", EMPTY).replaceAll(subpathToSubstract, EMPTY);
 	}
 
 	/**

@@ -75,7 +75,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	 * @param uri
 	 */
 	private void generateAuthAuthorization(Message message, String uri) {
-		addHeaderParam(message, "Authorization", generateSignature(appid, env, uri));
+		addHeaderParam(message, "Authorization", generateSignature(appid, env, uri, subpathToSubstract));
 	}
 
 	/**

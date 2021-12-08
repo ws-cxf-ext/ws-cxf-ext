@@ -1,6 +1,7 @@
 package org.ws.cxf.ext.utils.ui;
 
 import static org.ws.cxf.ext.Constants.EMPTY_STRING;
+import static org.ws.cxf.ext.utils.CXFMessageUtils.keepOnlyWebserviceRequest;
 import static org.ws.cxf.ext.utils.Utils.generateSignature;
 
 import java.awt.GridLayout;
@@ -26,7 +27,7 @@ public class AuthHeaderGenerator {
 	private static final int GRID_WIDTH = 2;
 
 	private static final int DEFAULT_WIDTH = 400;
-	private static final int DEFAULT_HEIGHT = 200;
+	private static final int DEFAULT_HEIGHT = 250;
 
 	/**
 	 * Labels.
@@ -34,6 +35,7 @@ public class AuthHeaderGenerator {
 	private static final String LABEL_URI = "URI";
 	private static final String LABEL_ENV = "Environment";
 	private static final String LABEL_APPID = "Appid";
+	private static final String LABEL_SUBPATH_TO_SUBSTRACT = "SubpathToSubstract";
 	private static final String LABEL_AUTH = "Authorization";
 
 	/**
@@ -65,6 +67,7 @@ public class AuthHeaderGenerator {
 		JTextField iuri = new JTextField();
 		JTextField ienv = new JTextField();
 		JTextField iappid = new JTextField();
+		JTextField isubpath = new JTextField();
 		JTextArea iresult = new JTextArea();
 		JScrollPane sp = new JScrollPane(iresult);
 
@@ -75,6 +78,7 @@ public class AuthHeaderGenerator {
 		JLabel lenv = new JLabel(LABEL_ENV);
 		JLabel lappid = new JLabel(LABEL_APPID);
 		JLabel lauth = new JLabel(LABEL_AUTH);
+		JLabel lsubpath = new JLabel(LABEL_SUBPATH_TO_SUBSTRACT);
 
 		JButton bgenerate = new JButton(BTN_RESULT);
 		JButton berase = new JButton(BTN_ERASE);
@@ -82,6 +86,7 @@ public class AuthHeaderGenerator {
 		addFieldPanel(luri, iuri, panel);
 		addFieldPanel(lenv, ienv, panel);
 		addFieldPanel(lappid, iappid, panel);
+		addFieldPanel(lsubpath, isubpath, panel);
 
 		panel.add(lauth);
 		panel.add(sp);
@@ -102,13 +107,14 @@ public class AuthHeaderGenerator {
 				ienv.setText(EMPTY_STRING);
 				iappid.setText(EMPTY_STRING);
 				iresult.setText(EMPTY_STRING);
+				isubpath.setText(EMPTY_STRING);
 			}
 		});
 
 		bgenerate.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				iresult.setText(generateSignature(iappid.getText(), ienv.getText(), iuri.getText()));
+				iresult.setText(generateSignature(iappid.getText(), ienv.getText(), iuri.getText(), isubpath.getText()));
 			}
 		});
 	}
