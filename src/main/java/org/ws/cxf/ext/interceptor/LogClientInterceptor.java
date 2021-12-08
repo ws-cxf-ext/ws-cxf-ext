@@ -1,5 +1,6 @@
 package org.ws.cxf.ext.interceptor;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.addHeaderParam;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getClient;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getCorrelationId;
@@ -89,7 +90,7 @@ public class LogClientInterceptor extends CustomAbstractInterceptor {
 		infos.put(INFO_PHASE, getPhase());
 		infos.put(PARAM_METHOD, getRequestMethod(message));
 
-		String uri = getRequestURI(message, false);
+		String uri = getRequestURI(message, false, EMPTY);
 
 		infos.put(PARAM_SERVICE, uri);
 		infos.put(INFO_CLIENT_NAME, clientName);

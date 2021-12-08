@@ -27,6 +27,9 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	@Value("${ws.appid.auth}")
 	private String appid;
 
+	@Value("${ws.subpath.to.substract:#{''}}")
+	private String subpathToSubstract;
+
 	/**
 	 * Application environment.
 	 */
@@ -56,7 +59,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	 */
 	public void handleMessageOut(Message message) {
 
-		String uri = getRequestURI(message, false);
+		String uri = getRequestURI(message, false, subpathToSubstract);
 
 		if (isNotBlank(appid)) {
 			generateAuthAuthorization(message, uri);

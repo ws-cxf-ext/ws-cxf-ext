@@ -37,13 +37,13 @@ public class CXFMessageUtils {
 	 * @param addHost
 	 * @return String
 	 */
-	public static String getRequestURI(Message message, boolean addHost) {
+	public static String getRequestURI(Message message, boolean addHost, String subpathToSubstract) {
 		String queryString = getQueryString(message);
 		String requestURI = (String) message.get(Message.REQUEST_URI);
 		String proto = getHeaderParam(message, "X-Forwarded-Proto");
 		String host = (!addHost) ? "" : (isNotBlank(proto) ? proto : "http") + "://" + getHeaderParam(message, "host");
 
-		return host + requestURI + ((isEmpty(queryString)) ? "" : "?" + queryString);
+		return host + requestURI + ((isEmpty(queryString)) ? "" : "?" + queryString).replaceAll(subpathToSubstract, "");
 	}
 
 	/**

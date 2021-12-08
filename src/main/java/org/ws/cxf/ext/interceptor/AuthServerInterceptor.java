@@ -1,5 +1,6 @@
 package org.ws.cxf.ext.interceptor;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getHeaderParam;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestURI;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.isPhaseInbound;
@@ -44,6 +45,9 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 */
 	@Value("${ws.env.auth:dev}")
 	private String env;
+
+	@Value("${ws.subpath.to.substract:#{''}}")
+	private String subpathToSubstract;
 
 	/**
 	 * Autorizations
@@ -106,10 +110,18 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 */
 	private void checkAuth(Message message) {
 		String authorization = getHeaderParam(message, "Authorization");
-		String service = getRequestURI(message, true);
+		String service = getRequestURI(message, true, subpathToSubstract);
 		Optional<CustomBasicAuth> auth = getBasicAuth(message, getAuth, postAuth, putAuth, deleteAuth);
 		Optional<ExceptionAuth> exp = getServiceException(auth, service);
 		CheckStatus status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid);
+
+		// We retry without removing the subpath
+		if(!status.isOk()) {
+			service = getRequestURI(message, true, EMPTY);
+			exp = getServiceException(auth, service);
+			status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid)
+		}
+
 		if(!status.isOk()) {
 			LOGGER.warn(status.getMessage());
 			throw new NotAuthorizedException(status.getMessage());

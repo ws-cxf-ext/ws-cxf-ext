@@ -1,5 +1,6 @@
 package org.ws.cxf.ext.interceptor;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getClient;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getCorrelationId;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getHeaderParam;
@@ -86,7 +87,7 @@ public class LogServerInterceptor extends CustomAbstractInterceptor {
 		infos.put(PARAM_CORRELATION_ID, correlationId);
 		infos.put("phase", getPhase());
 		infos.put("method", getRequestMethod(message));
-		infos.put("service", getRequestURI(message, true));
+		infos.put("service", getRequestURI(message, true, EMPTY));
 		infos.put("client-host", getRemoteAddrQuietly(message));
 		infos.put("client-name", clientName);
 
