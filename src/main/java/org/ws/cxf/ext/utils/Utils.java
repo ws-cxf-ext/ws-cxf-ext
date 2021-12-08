@@ -128,7 +128,7 @@ public class Utils {
 
     public static CheckStatus checkSignature(boolean disableAuthParam, String env, String authorization, String service, Optional<CustomBasicAuth> auth, Optional<ExceptionAuth> exp, Map<String, String> hashByAppid) {
         if (disableAuthParam || (exp.isPresent() && null != exp.get().getDisable() && exp.get().getDisable())) {
-            LOGGER.warn("Forced security for the service : {}", service);
+            LOGGER.info("Forced security for the service : {}", service);
             return CheckStatus.newInstance().ok();
         }
 

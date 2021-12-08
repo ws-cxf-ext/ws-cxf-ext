@@ -39,7 +39,7 @@ public class CXFMessageUtils {
 	public static String getRequestURI(Message message, boolean addHost) {
 		String queryString = getQueryString(message);
 		String requestURI = (String) message.get(Message.REQUEST_URI);
-		String host = (!addHost) ? "" : "http://" + getHeaderParam(message, "host");
+		String host = (!addHost) ? "" : getHeaderParam(message, "X-Forwarded-Proto") + "://" + getHeaderParam(message, "host");
 
 		return host + requestURI + ((isEmpty(queryString)) ? "" : "?" + queryString);
 	}

@@ -114,7 +114,7 @@ public class SecurityUtils {
 	 * @return Map<String, String>
 	 */
 	public static Map<String, String> generateAuthParameters(String appid, String env, String uri) {
-		Map<String, String> authAutorize = new HashMap<String, String>();
+		Map<String, String> authAutorize = new HashMap<>();
 
 		String token = UUID.randomUUID().toString();
 		authAutorize.put("auth_consumer_key", getSHA1Hmac(appid, env));

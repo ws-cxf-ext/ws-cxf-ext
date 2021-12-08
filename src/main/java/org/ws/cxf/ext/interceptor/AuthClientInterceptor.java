@@ -4,8 +4,6 @@ import static org.apache.commons.lang3.StringUtils.isNotBlank;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.addHeaderParam;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.getRequestURI;
 import static org.ws.cxf.ext.utils.CXFMessageUtils.isPhaseOutbound;
-import static org.ws.cxf.ext.utils.HTTPUtils.httpBuildQuery;
-import static org.ws.cxf.ext.utils.SecurityUtils.generateAuthParameters;
 import static org.ws.cxf.ext.utils.Utils.generateSignature;
 
 import org.apache.cxf.message.Message;
