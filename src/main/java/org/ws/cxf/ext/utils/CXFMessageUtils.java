@@ -30,6 +30,10 @@ import org.slf4j.LoggerFactory;
 public class CXFMessageUtils {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CXFMessageUtils.class);
 
+	public static String keepOnlyWebserviceRequest(String uri, String subpathToSubstract) {
+		return uri.replaceAll("http(s)?://[^/]*", "").replaceAll(subpathToSubstract, "");
+	}
+
 	/**
 	 * Getting the URI request.
 	 * 
@@ -37,13 +41,10 @@ public class CXFMessageUtils {
 	 * @param addHost
 	 * @return String
 	 */
-	public static String getRequestURI(Message message, boolean addHost, String subpathToSubstract) {
+	public static String getRequestURI(Message message, String subpathToSubstract) {
 		String queryString = getQueryString(message);
 		String requestURI = (String) message.get(Message.REQUEST_URI);
-		String proto = getHeaderParam(message, "X-Forwarded-Proto");
-		String host = (!addHost) ? "" : (isNotBlank(proto) ? proto : "http") + "://" + getHeaderParam(message, "host");
-
-		return host + requestURI + ((isEmpty(queryString)) ? "" : "?" + queryString).replaceAll(subpathToSubstract, "");
+		return keepOnlyWebserviceRequest(requestURI + ((isEmpty(queryString)) ? "" : "?" + queryString), subpathToSubstract);
 	}
 
 	/**

@@ -59,7 +59,7 @@ public class AuthClientInterceptor extends CustomAbstractInterceptor {
 	 */
 	public void handleMessageOut(Message message) {
 
-		String uri = getRequestURI(message, false, subpathToSubstract);
+		String uri = getRequestURI(message, subpathToSubstract);
 
 		if (isNotBlank(appid)) {
 			generateAuthAuthorization(message, uri);

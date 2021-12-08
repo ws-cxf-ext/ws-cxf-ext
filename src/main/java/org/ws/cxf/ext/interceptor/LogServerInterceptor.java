@@ -87,7 +87,7 @@ public class LogServerInterceptor extends CustomAbstractInterceptor {
 		infos.put(PARAM_CORRELATION_ID, correlationId);
 		infos.put("phase", getPhase());
 		infos.put("method", getRequestMethod(message));
-		infos.put("service", getRequestURI(message, true, EMPTY));
+		infos.put("service", getRequestURI(message, EMPTY));
 		infos.put("client-host", getRemoteAddrQuietly(message));
 		infos.put("client-name", clientName);
 

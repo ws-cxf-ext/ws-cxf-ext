@@ -1,7 +1,9 @@
 package org.ws.cxf.ext.utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.ws.cxf.ext.utils.CXFMessageUtils.keepOnlyWebserviceRequest;
 
 import org.apache.cxf.phase.Phase;
 import org.junit.Test;
@@ -14,6 +16,13 @@ import org.ws.cxf.ext.AbstractTest;
  *
  */
 public class CXFMessageUtilsTest extends AbstractTest {
+	@Test
+	public final void testKeepOnlyWebserviceRequest() {
+		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("http://127.0.0.1:8080/api/v1/service?foo=bar", "/api"));
+		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("https://api.mydomain.io/api/v1/service?foo=bar", "/api"));
+		assertEquals("/v1/service?foo=bar", keepOnlyWebserviceRequest("https://api.mydomain.io/v1/service?foo=bar", "/api"));
+	}
+
 	/**
 	 * Test nominal isPhaseOutbound.
 	 */

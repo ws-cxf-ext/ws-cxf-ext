@@ -110,14 +110,14 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 	 */
 	private void checkAuth(Message message) {
 		String authorization = getHeaderParam(message, "Authorization");
-		String service = getRequestURI(message, true, subpathToSubstract);
+		String service = getRequestURI(message, subpathToSubstract);
 		Optional<CustomBasicAuth> auth = getBasicAuth(message, getAuth, postAuth, putAuth, deleteAuth);
 		Optional<ExceptionAuth> exp = getServiceException(auth, service);
 		CheckStatus status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid);
 
 		// We retry without removing the subpath
 		if(!status.isOk()) {
-			service = getRequestURI(message, true, EMPTY);
+			service = getRequestURI(message, EMPTY);
 			exp = getServiceException(auth, service);
 			status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid);
 		}

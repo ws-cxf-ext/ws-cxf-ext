@@ -90,7 +90,7 @@ public class LogClientInterceptor extends CustomAbstractInterceptor {
 		infos.put(INFO_PHASE, getPhase());
 		infos.put(PARAM_METHOD, getRequestMethod(message));
 
-		String uri = getRequestURI(message, false, EMPTY);
+		String uri = getRequestURI(message, EMPTY);
 
 		infos.put(PARAM_SERVICE, uri);
 		infos.put(INFO_CLIENT_NAME, clientName);
