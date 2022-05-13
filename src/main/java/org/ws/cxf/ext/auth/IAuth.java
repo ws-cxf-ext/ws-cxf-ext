@@ -8,7 +8,7 @@ public interface IAuth {
 
     class Default implements IAuth {
         public List<String> getAppids() {
-            return new ArrayList<String>();
+            return new ArrayList<>();
         }
     }
 }

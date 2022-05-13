@@ -19,7 +19,7 @@ public class CustomBasicAuth implements IAuth {
 
 	private List<ExceptionAuth> exceptions;
 
-        private ExceptionAuth exception;
+	private ExceptionAuth exception;
 
 	/**
 	 * @return the method
@@ -51,21 +51,20 @@ public class CustomBasicAuth implements IAuth {
 		this.appids = appids;
 	}
 
-        /**
-         * @return the exceptions
-         */
-        public ExceptionAuth getException() {
-                return exception;
-        }
+	/**
+	 * @return the exceptions
+	 */
+	public ExceptionAuth getException() {
+			return exception;
+	}
 
-        /**
-         * @param exceptions
-         *            the exceptions to set
-         */
-        public void setException(ExceptionAuth exception) {
-                this.exception = exception;
-        }
-
+	/**
+	 * @param exceptions
+	 *            the exceptions to set
+	 */
+	public void setException(ExceptionAuth exception) {
+		this.exception = exception;
+	}
 
 	/**
 	 * @return the exceptions
@@ -80,5 +79,47 @@ public class CustomBasicAuth implements IAuth {
 	 */
 	public void setExceptions(List<ExceptionAuth> exceptions) {
 		this.exceptions = exceptions;
+	}
+
+	public static CustomBasicAuth newInstance() {
+		return new CustomBasicAuth();
+	}
+
+	public CustomBasicAuth method(String method) {
+		setMethod(method);
+		return this;
+	}
+
+	public CustomBasicAuth exception(ExceptionAuth exception) {
+		setException(exception);
+		return this;
+	}
+
+	public CustomBasicAuth exceptions(List<ExceptionAuth> exceptions) {
+		setExceptions(exceptions);
+		return this;
+	}
+
+	public CustomBasicAuth addException(ExceptionAuth exception) {
+		if (null == getExceptions()) {
+			exceptions(new ArrayList<>());
+		}
+
+		getExceptions().add(exception);
+		return this;
+	}
+
+	public CustomBasicAuth appids(List<String> appids) {
+		setAppids(appids);
+		return this;
+	}
+
+	public CustomBasicAuth addAppid(String appid) {
+		if (null == getAppids()) {
+			setAppids(new ArrayList<>());
+		}
+
+		getAppids().add(appid);
+		return this;
 	}
 }

@@ -1,5 +1,6 @@
 package org.ws.cxf.ext.auth;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,5 +69,38 @@ public class ExceptionAuth implements IAuth {
 	 */
 	public void setAppids(List<String> appids) {
 		this.appids = appids;
+	}
+
+	public static ExceptionAuth newInstance() {
+		return new ExceptionAuth();
+	}
+
+	public ExceptionAuth pattern(String pattern) {
+		setPattern(pattern);
+		return this;
+	}
+
+	public ExceptionAuth disable() {
+		setDisable(true);
+		return this;
+	}
+
+	public ExceptionAuth enable() {
+		setDisable(false);
+		return this;
+	}
+
+	public ExceptionAuth appids(List<String> appids) {
+		setAppids(appids);
+		return this;
+	}
+
+	public ExceptionAuth addAppid(String appid) {
+		if (null == getAppids()) {
+			setAppids(new ArrayList<>());
+		}
+
+		getAppids().add(appid);
+		return this;
 	}
 }
