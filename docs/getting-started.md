@@ -54,22 +54,6 @@ Note : the names of the CustomBasicAuth's beans are significant.
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
-    
-    <bean id="exceptionServuceWichIsAlsoOpenToClient3" class="org.ws.cxf.ext.auth.ExceptionAuth">
-        <property name="pattern" value="/serviceWhichIsOpenToClient3" />
-        <property name="appids">
-            <list>
-                <value>client1-readandwrite-secret</value>
-            	<value>client2-readonly-secret</value>
-                <value>client3-onlyoneservice-secret</value>
-            </list>
-        </property>
-    </bean>
-    
-    <bean id="exceptionServiceWichIsNotAuthentified" class="org.ws.cxf.ext.auth.ExceptionAuth">
-        <property name="pattern" value="/serviceWichIsNotAuthentified" />
-        <property name="disable" value="true" />
-    </bean>
 
     <util:list id="listReadOnly" value-type="java.lang.String">
         <value>client2-readonly-secret</value>
@@ -85,6 +69,23 @@ Note : the names of the CustomBasicAuth's beans are significant.
     <util:list id="listAdmin" value-type="java.lang.String">
         <value>client3-admin</value>
     </util:list>
+    
+    <bean id="exceptionServuceWichIsAlsoOpenToClient4" class="org.ws.cxf.ext.auth.ExceptionAuth">
+        <property name="pattern" value="/serviceWhichIsOpenToClient4" />
+        <property name="appids">
+            <list>
+                <value>client1-readandwrite-secret</value>
+            	<value>client2-readonly-secret</value>
+                <value>client3-admin</value>
+                <value>client4-onlyoneservice-secret</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="exceptionServiceWichIsNotAuthentified" class="org.ws.cxf.ext.auth.ExceptionAuth">
+        <property name="pattern" value="/serviceWichIsNotAuthentified" />
+        <property name="disable" value="true" />
+    </bean>
 
     <bean id="authGet" class="org.ws.cxf.ext.auth.CustomBasicAuth">
         <property name="method" value="GET" />
@@ -228,3 +229,11 @@ MyJaxRsInterface api = new Feign.Builder().interceptors(Arrays.asList(new FeignC
 // ... encoder, decoder, chosen http client, request options with timeouts...
 .target(MyJaxRsInterface.class, url);
 ```
+
+## Knowing if your client is an admin application
+
+An admin application is referenced by the `authAdm` instance of `CustomBasicAuth`.
+
+An admin application is usefull to know if your API can return sensitive data for example.
+
+You'll just have to inject the [`ICurrentAppId`](../src/main/java/org/ws/cxf/ext/appid/ICurrentAppId.java) bean and use the `isAdmin` method.
