@@ -5,6 +5,7 @@ import org.apache.cxf.message.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.ws.cxf.ext.Constants;
+import org.ws.cxf.ext.appid.ICurrentAppId;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
 import org.ws.cxf.ext.auth.ExceptionAuth;
 import org.ws.cxf.ext.auth.IAuth;
@@ -115,11 +116,16 @@ public class Utils {
         auth.getAppids().stream().filter(appid -> !hashByAppid.containsKey(appid)).forEach(appid -> hashByAppid.put(appid, getHashFromAppid(appid, env, hashByAppid)));
     }
 
-    public static Predicate<String> isExpectedAuth(String env, String service, String hashConsumerKey, String hashSignature, Map<String, String> hashByAppid) {
+    public static Predicate<String> isExpectedAuth(String env, String service, String hashConsumerKey, String hashSignature, Map<String, String> hashByAppid, ICurrentAppId currentAppId) {
         return appid -> {
             String hashConsumerKeyExpected = getHashFromAppid(appid, env, hashByAppid);
             String hashSignatureExpected = getSHA1Hmac(appid, service);
-            return isEquals(hashConsumerKey, hashConsumerKeyExpected) && isEquals(hashSignature, hashSignatureExpected);
+            boolean p = isEquals(hashConsumerKey, hashConsumerKeyExpected) && isEquals(hashSignature, hashSignatureExpected);
+            if (p) {
+                currentAppId.setCurrentAppId(appid);
+            }
+
+            return p;
         };
     }
 
@@ -127,7 +133,7 @@ public class Utils {
         return o1.map(o -> (IAuth) o).orElse(o2.map(o -> (IAuth) o).orElse(new IAuth.Default())).getAppids();
     }
 
-    public static CheckStatus checkSignature(boolean disableAuthParam, String env, String authorization, String service, Optional<CustomBasicAuth> auth, Optional<ExceptionAuth> exp, Map<String, String> hashByAppid) {
+    public static CheckStatus checkSignature(boolean disableAuthParam, String env, String authorization, String service, Optional<CustomBasicAuth> auth, Optional<ExceptionAuth> exp, Map<String, String> hashByAppid, ICurrentAppId currentAppId) {
         if (disableAuthParam || (exp.isPresent() && null != exp.get().getDisable() && exp.get().getDisable())) {
             LOGGER.info("Forced security for the service : {}", service);
             return CheckStatus.newInstance().ok();
@@ -195,7 +201,7 @@ public class Utils {
 
             List<String> lstAppids = lstAppids(exp, auth);
             if (null != hashConsumerKey && isNotEmpty(lstAppids)) {
-                needErr401 = !lstAppids.stream().anyMatch(isExpectedAuth(env, service + tokenDecode, hashConsumerKey, hashSignature, hashByAppid));
+                needErr401 = !lstAppids.stream().anyMatch(isExpectedAuth(env, service + tokenDecode, hashConsumerKey, hashSignature, hashByAppid, currentAppId));
             }
 
             if (needErr401) {

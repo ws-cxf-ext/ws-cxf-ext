@@ -1,6 +1,7 @@
 package org.ws.cxf.ext.utils;
 
 import org.junit.Test;
+import org.ws.cxf.ext.appid.ICurrentAppId;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
 
 import java.util.HashMap;
@@ -21,7 +22,7 @@ public class UtilsTest {
         String env = "dev";
 
         // When
-        CheckStatus result = Utils.checkSignature(true, env, signature, service, Optional.empty(), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(true, env, signature, service, Optional.empty(), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -38,7 +39,7 @@ public class UtilsTest {
         String service = "/v1/user/all?startIndex=0&maxResults=100";
 
         // When
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.empty(), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.empty(), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -56,7 +57,7 @@ public class UtilsTest {
         String signature = "Auth ?auth_signature=3mGHk9fOYOoEzP8PmQvpkcOk9ak%3D&auth_nonce=4Hoqb%2FqGABuVUcgevPnWFEG9hTc%3D&auth_callback=%2Fv1%2Fuser%2Fall%3FstartIndex%3D0%26maxResults%3D100&auth_timestamp=1652477329113&auth_token=fc228e62-18bd-4594-99d2-60470d505cc0&auth_signature_method=HMAC-SHA1&auth_consumer_key=rdSZyzfUWPVAyzXptT%2FNYDYzSgU%3D";
 
         // When
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.empty(), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.empty(), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -74,7 +75,7 @@ public class UtilsTest {
         String signature = "Auth ?auth_signature=3mGHk9fOYOoEzP8PmQvpkcOk9ak%3D&auth_nonce=4Hoqb%2FqGABuVUcgevPnWFEG9hTc%3D&auth_callback=%2Fv1%2Fuser%2Fall%3FstartIndex%3D0%26maxResults%3D100&auth_timestamp=1652477329113&auth_token=fc228e62-18bd-4594-99d2-60470d505cc0&auth_signature_method=HMAC-SHA1&auth_consumer_key=rdSZyzfUWPVAyzXptT%2FNYDYzSgU%3D";
 
         // When
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -93,7 +94,7 @@ public class UtilsTest {
 
         // When
         Utils.populateHashByAppid(auth, env, hashByAppid);
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -112,7 +113,7 @@ public class UtilsTest {
 
         // When
         Utils.populateHashByAppid(auth, env, hashByAppid);
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -131,7 +132,7 @@ public class UtilsTest {
 
         // When
         Utils.populateHashByAppid(auth, env, hashByAppid);
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);
@@ -151,7 +152,7 @@ public class UtilsTest {
 
         // When
         Utils.populateHashByAppid(auth, env, hashByAppid);
-        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid);
+        CheckStatus result = Utils.checkSignature(false, env, signature, service, Optional.of(auth), Optional.empty(), hashByAppid, new ICurrentAppId.Default());
 
         // Then
         assertNotNull(result);

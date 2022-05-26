@@ -20,7 +20,9 @@ import org.apache.cxf.message.Message;
 import org.apache.cxf.phase.Phase;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.ws.cxf.ext.appid.ICurrentAppId;
 import org.ws.cxf.ext.auth.CustomBasicAuth;
 import org.ws.cxf.ext.auth.ExceptionAuth;
 import org.ws.cxf.ext.utils.CheckStatus;
@@ -48,6 +50,9 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 
 	@Value("${ws.subpath.to.substract:#{''}}")
 	private String subpathToSubstract;
+
+	@Autowired
+	private ICurrentAppId currentAppId;
 
 	/**
 	 * Autorizations
@@ -113,13 +118,13 @@ public class AuthServerInterceptor extends CustomAbstractInterceptor {
 		String service = getRequestURI(message, subpathToSubstract);
 		Optional<CustomBasicAuth> auth = getBasicAuth(message, getAuth, postAuth, putAuth, deleteAuth);
 		Optional<ExceptionAuth> exp = getServiceException(auth, service);
-		CheckStatus status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid);
+		CheckStatus status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid, currentAppId);
 
 		// We retry without removing the subpath
 		if(!status.isOk()) {
 			service = getRequestURI(message, EMPTY);
 			exp = getServiceException(auth, service);
-			status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid);
+			status = checkSignature(disableAuthParam, env, authorization, service, auth, exp, hashByAppid, currentAppId);
 		}
 
 		if(!status.isOk()) {
