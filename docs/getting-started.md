@@ -47,12 +47,14 @@ Note : the names of the CustomBasicAuth's beans are significant.
     xmlns:jaxrs="http://cxf.apache.org/jaxrs" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
     xmlns:cxf="http://cxf.apache.org/core" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:jaxws="http://cxf.apache.org/jaxws" xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:util="http://www.springframework.org/schema/util"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
         http://cxf.apache.org/jaxrs http://cxf.apache.org/schemas/jaxrs.xsd
         http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
         http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd">
-
+    
     <bean id="exceptionServuceWichIsAlsoOpenToClient3" class="org.ws.cxf.ext.auth.ExceptionAuth">
         <property name="pattern" value="/serviceWhichIsOpenToClient3" />
         <property name="appids">
@@ -69,14 +71,24 @@ Note : the names of the CustomBasicAuth's beans are significant.
         <property name="disable" value="true" />
     </bean>
 
+    <util:list id="listReadOnly" value-type="java.lang.String">
+        <value>client2-readonly-secret</value>
+        <value>client1-readandwrite-secret</value>
+        <value>client3-admin</value>
+    </util:list>
+
+    <util:list id="listReadWrite" value-type="java.lang.String">
+        <value>client1-readandwrite-secret</value>
+        <value>client3-admin</value>
+    </util:list>
+
+    <util:list id="listAdmin" value-type="java.lang.String">
+        <value>client3-admin</value>
+    </util:list>
+
     <bean id="authGet" class="org.ws.cxf.ext.auth.CustomBasicAuth">
         <property name="method" value="GET" />
-        <property name="appids">
-            <list>
-                <value>client1-readandwrite-secret</value>
-            	<value>client2-readonly-secret</value>
-            </list>
-        </property>
+        <property name="appids" ref="listReadOnly" />
 
         <property name="exceptions">
             <list>
@@ -88,30 +100,24 @@ Note : the names of the CustomBasicAuth's beans are significant.
 
     <bean id="authPost" class="org.ws.cxf.ext.auth.CustomBasicAuth">
         <property name="method" value="POST" />
-        <property name="appids">
-            <list>
-                <value>client1-readandwrite-secret</value>
-            </list>
-        </property>
+        <property name="appids" ref="listReadWrite" />
     </bean>
 
     <bean id="authPut" class="org.ws.cxf.ext.auth.CustomBasicAuth">
         <property name="method" value="PUT" />
-        <property name="appids">
-            <list>
-                <value>client1-readandwrite-secret</value>
-            </list>
-        </property>
+        <property name="appids" ref="listReadWrite" />
     </bean>
 
     <bean id="authDelete" class="org.ws.cxf.ext.auth.CustomBasicAuth">
         <property name="method" value="DELETE" />
-        <property name="appids">
-            <list>
-                <value>client1-readandwrite-secret</value>
-            </list>
-        </property>
+        <property name="appids" ref="listReadWrite" />
     </bean>
+    
+    <bean id="authAdm" class="org.ws.cxf.ext.auth.CustomBasicAuth">
+        <property name="appids" ref="listAdmin" />
+    </bean>
+
+    <bean id="currentAppId" class="org.ws.cxf.ext.appid.CurrentAppId"></bean>
 </beans>
 ```
 
