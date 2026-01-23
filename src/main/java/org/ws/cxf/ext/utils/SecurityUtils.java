@@ -150,7 +150,11 @@ public class SecurityUtils {
 	 * @return ip
 	 */
 	public static String getIPAdressQuietly(HttpServletRequest request) {
-		String ipAddress = request.getHeader("X-FORWARDED-FOR");
+		String ipAddress = request.getHeader("X-REAL-IP");
+
+		if (ipAddress == null) {
+			ipAddress = request.getHeader("X-FORWARDED-FOR");
+		}
 
 		if (ipAddress == null) {
 			ipAddress = request.getRemoteAddr();
